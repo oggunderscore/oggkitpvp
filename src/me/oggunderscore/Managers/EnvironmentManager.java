@@ -138,6 +138,8 @@ public class EnvironmentManager implements Listener {
 		}
 	}
 	
+	
+	/*
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
@@ -183,7 +185,7 @@ public class EnvironmentManager implements Listener {
 			}
 		}
 
-	}
+	}*/
 
 	@EventHandler
 	public void onDrop(PlayerDropItemEvent e) {

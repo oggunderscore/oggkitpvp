@@ -5,6 +5,8 @@ api-version: 1.13
 author: IgnitedMC Development
 description: IgnitedMC's Main Core
 commands: 
+    tp:
+        description: Teleport to someone
     fight:
         description: Fight Someone!
     dev:

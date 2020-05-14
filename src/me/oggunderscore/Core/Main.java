@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.oggunderscore.Commands.GameCommands;
 import me.oggunderscore.Commands.PlayerCommands;
 import me.oggunderscore.Commands.StaffCommands;
+import me.oggunderscore.Commands.TeleportCommand;
 import me.oggunderscore.Managers.ArenaManager;
 import me.oggunderscore.Managers.EnvironmentManager;
 import me.oggunderscore.Managers.FFAManager;
@@ -41,6 +42,7 @@ public class Main extends JavaPlugin {
 		pm.registerEvents(new EnvironmentManager(), this);
 		pm.registerEvents(new MenuManager(), this);
 		
+		getCommand("tp").setExecutor(new TeleportCommand());
 		getCommand("dev").setExecutor(new StaffCommands());
 		getCommand("stats").setExecutor(new PlayerCommands());
 		getCommand("coreinfo").setExecutor(new GameCommands());

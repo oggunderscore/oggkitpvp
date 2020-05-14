@@ -559,7 +559,7 @@ public class MenuManager implements Listener {
 				if (e.getAction().equals(InventoryAction.PICKUP_ALL)
 						|| e.getAction().equals(InventoryAction.PICKUP_HALF)) {
 					e.setCancelled(true);
-					if (p.getWorld().equals(Worlds.kitpvpWorld) && FFAManager.inFfa.contains(p)) {
+					if (FFAManager.inFfa.contains(p)) {
 						p.closeInventory();
 						Inventories.clear(p);
 						p.teleport(Locations.spawn);
@@ -581,7 +581,7 @@ public class MenuManager implements Listener {
 					} else {
 						p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
 						p.sendMessage(ChatColor.GRAY + "[" + ChatColor.RED + "Error" + ChatColor.GRAY
-								+ "] You are not in the KitPVP World!");
+								+ "] You are not in the FFA Arena!");
 					}
 				}
 			}
@@ -609,8 +609,7 @@ public class MenuManager implements Listener {
 				}
 			}
 
-			if (clicked != null && clicked.containsEnchantment(Enchantment.DURABILITY)
-					&& e.getInventory().equals(Inventories.kitGui)) {
+			if (clicked != null && clicked.containsEnchantment(Enchantment.DURABILITY) && e.getInventory().equals(Inventories.kitGui)) {
 				e.setCancelled(true);
 				p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
 			}
