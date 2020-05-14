@@ -22,14 +22,14 @@ public class TeleportCommand implements CommandExecutor {
             double z = Double.parseDouble(sZ);
             pl = new Location(p.getWorld(), x, y, z);
             p.teleport(pl);
-            p.sendMessage("teleported to " + x + " " + y + " " + z);
+            p.sendMessage("§7[§9Teleport§7] Teleported to " + x + " " + y + " " + z);
         } catch (Exception e) {
-            player.sendMessage("List:");
-            player.sendMessage("<target> to Player ");
+            player.sendMessage("§7[§9Teleport§7] §7Commands List:");
+            player.sendMessage("§6/tp <target> §7Teleport to Player §6Mod ");
             player.sendMessage("b(ack) <amount> <Player> Teleports");
-            player.sendMessage("h(ere) <player> Player to Self");
-            player.sendMessage("<player> <target> Player to Player");
-            player.sendMessage("<X> <Y> <Z> to Location");
+            player.sendMessage("§4/tp (you) (player) §7Teleports Player to Self §4Admin");
+            player.sendMessage("§4/tp <player> <target> §7Teleports Player to Player §4Admin");
+            player.sendMessage("§4/tp <X> <Y> <Z> §7Teleports to Location §4Admin");
         }
     }
 
@@ -37,36 +37,36 @@ public class TeleportCommand implements CommandExecutor {
         Player t1 = Bukkit.getPlayerExact(target1);
         Player t2 = Bukkit.getPlayerExact(target2);
         if (t1 == null) {
-            player.sendMessage("Player Search > matches for " + target1);
+            player.sendMessage("§7[§9Teleport§7] No target found : " + target1);
             return;
         }
         if (t2 == null) {
-            player.sendMessage("Player Search > matches for " + target2);
+            player.sendMessage("§7[§9Teleport§7] No target found : " + target2);
             return;
         }
         t1.teleport(t2.getLocation());
-        t1.sendMessage("were teleported to " + t2.getName());
-        player.sendMessage("teleported " + t1.getName() + " to " + t2.getName());
+        t1.sendMessage("§7[§9Teleport§7] You were teleported to " + t2.getName());
+        player.sendMessage("§7[§9Teleport§7] Teleported " + t1.getName() + " to " + t2.getName());
     }
 
     public static void playerToSelf(Player player, String target) {
         Player t = Bukkit.getPlayerExact(target);
         if (t == null) {
-            player.sendMessage("Player Search > matches for " + target);
+            player.sendMessage("§7[§9Teleport§7] No target found : " + target);
             return;
         }
         t.teleport(player.getLocation());
-        t.sendMessage(player.getName() + " teleported you to Self.");
-        player.sendMessage("teleported " + target + " to Self.");
+        t.sendMessage("§7[§9Teleport§7] " + player.getName() + " teleported to Self.");
+        player.sendMessage("§7[§9Teleport§7] Teleported " + target + " to Self.");
     }
 
     public static void teleportToPlayer(Player player, String target) {
         Player t = Bukkit.getPlayerExact(target);
         if (t == null) {
-            player.sendMessage("Player Search > matches for " + target);
+            player.sendMessage("§7[§9Teleport§7] No target found : " + target);
             return;
         }
-        player.sendMessage("teleported to " + t.getName());
+        player.sendMessage("§7[§9Teleport§7] Teleported to " + t.getName());
         player.teleport(t.getLocation());
     }
 
@@ -77,12 +77,12 @@ public class TeleportCommand implements CommandExecutor {
 
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage("command can be used only through players.");
+            sender.sendMessage("Players only!");
             return false;
         }
         Player player = (Player) sender;
         if (!player.hasPermission("rank.mod")) {
-            player.sendMessage("don't have permission for that.");
+            player.sendMessage("§7[§9Permissions§7] §7You don't have permission for that.");
             return false;
         }
         if (args.length == 1)
@@ -90,7 +90,7 @@ public class TeleportCommand implements CommandExecutor {
         if (args.length == 2) {
             if (args[0].equalsIgnoreCase("here")) {
                 if (!player.hasPermission("rank.admin")) {
-                    player.sendMessage("don't have permission for that.");
+                    player.sendMessage("§7[§9Permissions§7] §7You don't have permission for that.");
                     return false;
                 }
                 playerToSelf(player, args[1]);
@@ -98,7 +98,7 @@ public class TeleportCommand implements CommandExecutor {
             }
             if (!args[0].equalsIgnoreCase("here")) {
                 if (!player.hasPermission("rank.admin")) {
-                    player.sendMessage("don't have permission for that.");
+                    player.sendMessage("§7[§9Permissions§7] §7You don't have permission for that.");
                     return false;
                 }
                 playerToPlayer(player, args[0], args[1]);
@@ -106,19 +106,19 @@ public class TeleportCommand implements CommandExecutor {
             }
             if (args.length == 3) {
                 if (player.hasPermission("rank.admin"))
-                    player.sendMessage("don't have permission for that.");
+                    player.sendMessage("§7[§9Permissions§7] §7You don't have permission for that.");
                 return false;
             }
             playertoLoc(player, player.getWorld(), args[0], args[1], args[2]);
             return true;
         }
         if (args.length == 0) {
-            player.sendMessage("List:");
-            player.sendMessage("<target> to Player");
-            player.sendMessage("b(ack) <amount> <Player> Teleports ");
-            player.sendMessage("h(ere) <player> Player to Self ");
-            player.sendMessage("<player> <target> Player to Player ");
-            player.sendMessage("<X> <Y> <Z> to Location ");
+        	player.sendMessage("§7[§9Teleport§7] §7Commands List:");
+            player.sendMessage("§6/tp <target> §7Teleport to Player §6Mod ");
+            player.sendMessage("b(ack) <amount> <Player> Teleports");
+            player.sendMessage("§4/tp (you) (player) §7Teleports Player to Self §4Admin");
+            player.sendMessage("§4/tp <player> <target> §7Teleports Player to Player §4Admin");
+            player.sendMessage("§4/tp <X> <Y> <Z> §7Teleports to Location §4Admin");
             return true;
         }
         return false;
