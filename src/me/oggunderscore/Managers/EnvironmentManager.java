@@ -63,8 +63,26 @@ public class EnvironmentManager implements Listener {
 	@EventHandler
 	public void onFall(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player) {
-			if (e.getCause().equals(DamageCause.FALL)) {
+			Player p = (Player) e.getEntity();
+			
+			if (p.getHealth() - e.getDamage() <= 0.0) {
+				String cause = e.getCause().toString();
+				Bukkit.getServer().broadcastMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "Death" + ChatColor.GRAY + "] " + ChatColor.AQUA
+						+ p.getName() + ChatColor.GRAY + " was killed by " + cause);
+				FFAManager.inFfa.remove(p);
+				Inventories.clear(p);
+				p.setGameMode(GameMode.ADVENTURE);
+				p.teleport(Locations.spawn);
+				p.getInventory().setItem(0, ItemStacks.getItem("kitpvpButton"));
 				e.setCancelled(true);
+			}
+			if (e.getCause().equals(DamageCause.FALL)) {
+				if (StatusManager.enableFall.contains(p)) {
+					StatusManager.enableFall.remove(p);
+					e.setCancelled(false);
+				} else {
+					e.setCancelled(true);
+				}
 			}
 		}
 	}
@@ -191,7 +209,9 @@ public class EnvironmentManager implements Listener {
 	public void onDrop(PlayerDropItemEvent e) {
 		Player p = (Player) e.getPlayer();
 		if (p.getWorld().equals(Worlds.kitpvpWorld)) {
-			e.setCancelled(true);
+			if (p.getGameMode().equals(GameMode.ADVENTURE)) {
+				e.setCancelled(true);
+			}
 		}
 	}
 
@@ -209,29 +229,37 @@ public class EnvironmentManager implements Listener {
 	@EventHandler
 	public void ont(PlayerDeathEvent e) {
 		if (e.getEntity() instanceof Player) {
+		
 
 			Player p = (Player) e.getEntity();
+			
+			
 			Player killer = (Player) p.getKiller();
-			double killerHealth = killer.getHealth();
-			killerHealth = Math.round(killerHealth);
-			if (killerHealth == 1.0) {
-				killerHealth = 0.5;
+			if (killer != null) {
+				double killerHealth = killer.getHealth();
+				killerHealth = Math.round(killerHealth);
+				if (killerHealth == 1.0) {
+					killerHealth = 0.5;
+				} else {
+					killerHealth = killerHealth / 2;
+				}
+				e.setDeathMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "Death" + ChatColor.GRAY + "] " + ChatColor.AQUA
+						+ p.getName() + ChatColor.GRAY + " was killed by " + killer.getName() + ChatColor.GRAY + " ("
+						+ ChatColor.RED + "" + ChatColor.BOLD + killerHealth + "❤" + ChatColor.GRAY + ")");
+
+				if (FFAManager.inFfa.contains(killer)) {
+					Integer newKillerGold = (Integer) Main.getInstance().getConfig().getConfigurationSection(killer.getName()).get("GOLD") + 50;
+					Main.getInstance().getConfig().getConfigurationSection(killer.getName()).set("GOLD", newKillerGold);
+					killer.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "FFA" + ChatColor.GRAY + "] You collected "
+							+ ChatColor.GOLD + "" + ChatColor.BOLD + "50 Gold " + ChatColor.GRAY + "for killing "
+							+ ChatColor.RED + p.getName());
+				}
 			} else {
-				killerHealth = killerHealth / 2;
-			}
-			e.setDeathMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "Death" + ChatColor.GRAY + "] " + ChatColor.AQUA
-					+ p.getName() + ChatColor.GRAY + " was killed by " + killer.getName() + ChatColor.GRAY + " ("
-					+ ChatColor.RED + "" + ChatColor.BOLD + killerHealth + "❤" + ChatColor.GRAY + ")");
-
-			if (FFAManager.inFfa.contains(killer)) {
-				Integer newKillerGold = (Integer) Main.getInstance().getConfig().getConfigurationSection(killer.getName()).get("GOLD") + 50;
-				Main.getInstance().getConfig().getConfigurationSection(killer.getName()).set("GOLD", newKillerGold);
-				killer.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "FFA" + ChatColor.GRAY + "] You collected "
-						+ ChatColor.GOLD + "" + ChatColor.BOLD + "50 Gold " + ChatColor.GRAY + "for killing "
-						+ ChatColor.RED + p.getName());
+				e.setDeathMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "Death" + ChatColor.GRAY + "] " + ChatColor.AQUA
+						+ p.getName() + ChatColor.GRAY + " died.");
 			}
 
-			if (p.getWorld().equals(Worlds.kitpvpWorld)) {
+			if (p.getWorld().equals(Worlds.kitpvpWorld) && killer != null) {
 
 				Inventories.clear(p);
 
@@ -296,15 +324,16 @@ public class EnvironmentManager implements Listener {
 				
 
 				if (Main.getInstance().getConfig().getConfigurationSection(killer.getName()).get("KIT").equals("TANK")) {
-					PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 5, 0);
+					PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 15, 0);
 					killer.addPotionEffect(strength);
-					PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 20 * 5, 0);
+					PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 20 * 15, 0);
 					killer.addPotionEffect(speed);
 
 				}
 				
 				p.setGameMode(GameMode.ADVENTURE);
 				p.teleport(Locations.kitpvpSpawn);
+				
 
 
 				for (PotionEffect effect : p.getActivePotionEffects()) {
@@ -319,8 +348,12 @@ public class EnvironmentManager implements Listener {
 					FightManager.winner.setHealth(20.0);
 					FightManager.loser.setHealth(20.0);
 				}
+			} else {
+				p.setGameMode(GameMode.ADVENTURE);
+				p.teleport(Locations.kitpvpSpawn);
 			}
-		} else {
+		}
+		else {
 			Player p = (Player) e.getEntity();
 			
 			if (p.getKiller() instanceof Entity) {

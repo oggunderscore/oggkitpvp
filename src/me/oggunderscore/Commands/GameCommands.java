@@ -36,27 +36,27 @@ public class GameCommands implements CommandExecutor {
 					Main.getInstance().getConfig().set("urf", true);
 					p.sendMessage(Prefix.corePrefix + "URF has been enabled!");
 					Main.getPlugin(Main.class).saveConfig();
-					Events.cdEnlightment = 3;
-					Events.cdIgnite = 1;
-					Events.cdRegen = 7;
-					Events.cdEarthquake = 6;
+					Events.cdEnlightment = 7;
+					Events.cdIgnite = 4;
+					Events.cdRegen = 8;
+					Events.cdEarthquake = 7;
 					Events.cdCorruptedOrb = 4;
-					Events.cdDash = 1;
+					Events.cdDash = 2;
 					Events.cdEscape = 4;
-					Events.cdBlink = 2;
-					Events.cdCloak = 12;
+					Events.cdBlink = 4;
+					Events.cdCloak = 10;
 				} else {
 					Main.getInstance().getConfig().set("urf", false);
 					p.sendMessage(Prefix.corePrefix + "URF has been disabled!");
 					Main.getPlugin(Main.class).saveConfig();
 					Events.cdEnlightment = 13;
-					Events.cdIgnite = 5;
+					Events.cdIgnite = 7;
 					Events.cdRegen = 15;
 					Events.cdEarthquake = 14;
 					Events.cdCorruptedOrb = 7;
 					Events.cdDash = 3;
 					Events.cdEscape = 7;
-					Events.cdBlink = 3;
+					Events.cdBlink = 7;
 					Events.cdCloak = 20;
 				}
 				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);

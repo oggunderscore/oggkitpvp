@@ -44,9 +44,11 @@ public class MenuManager implements Listener {
 
 		Inventories.kitGui.setItem(9, ItemStacks.getItem("ffa"));
 		Inventories.kitGui.setItem(13, ItemStacks.getItem("leave"));
-		Inventories.kitGui.setItem(15, ItemStacks.getItem("statsButton"));
-		Inventories.kitGui.setItem(16, ItemStacks.getItem("infoButton"));
-		Inventories.kitGui.setItem(17, ItemStacks.getItem("closeMenu"));
+		Inventories.kitGui.setItem(22, ItemStacks.getItem("unlockButton"));
+		Inventories.kitGui.setItem(23, ItemStacks.getItem("settingsButton"));
+		Inventories.kitGui.setItem(24, ItemStacks.getItem("statsButton"));
+		Inventories.kitGui.setItem(25, ItemStacks.getItem("infoButton"));
+		Inventories.kitGui.setItem(26, ItemStacks.getItem("closeMenu"));
 		// InventoryManager.kitGui.setItem(10, ItemStacks.getItem("ffa2"));
 	}
 
@@ -94,16 +96,13 @@ public class MenuManager implements Listener {
 
 		if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 
-			if (item == null) { // Null check
-				return;
+			if (item != null) { // Null check
+				if (item.equals(ItemStacks.getItem("kitpvpButton"))) {
+					e.setCancelled(true); // Dont do anything with the item, cancel it.
+					setupMenu(p); // Setup the menu for player p specifically.
+					p.openInventory(Inventories.kitGui);
+				}
 			}
-
-			if (item.equals(ItemStacks.getItem("kitpvpButton"))) {
-				e.setCancelled(true); // Dont do anything with the item, cancel it.
-				setupMenu(p); // Setup the menu for player p specifically.
-				p.openInventory(Inventories.kitGui);
-			}
-
 		}
 	}
 
@@ -297,10 +296,6 @@ public class MenuManager implements Listener {
 
 							Inventories.clear(p);
 							p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-							Bukkit.getServer()
-									.broadcastMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "FFA" + ChatColor.GRAY
-											+ "] " + ChatColor.AQUA + p.getName() + ChatColor.GRAY
-											+ " has joined the FFA Arena!");
 							FFAManager.inFfa.add(p);
 
 							if (Main.getInstance().getConfig().getConfigurationSection(p.getName()).get("KIT")
@@ -368,13 +363,9 @@ public class MenuManager implements Listener {
 
 						if (FFAManager.ffaCancel == 0) {
 							p.closeInventory();
-							p.setGameMode(GameMode.SURVIVAL);
+							p.setGameMode(GameMode.ADVENTURE);
 							Inventories.clear(p);
 							p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-							Bukkit.getServer()
-									.broadcastMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "FFA" + ChatColor.GRAY
-											+ "] " + ChatColor.AQUA + p.getName() + ChatColor.GRAY
-											+ " has joined the FFA Arena!");
 							FFAManager.inFfa.add(p);
 
 							if (Main.getInstance().getConfig().getConfigurationSection(p.getName()).get("KIT")
@@ -462,6 +453,15 @@ public class MenuManager implements Listener {
 					e.setCancelled(true);
 					p.closeInventory();
 				}
+			} else if (clicked.equals(ItemStacks.getItem("unlockButton"))) {
+				if (e.getAction().equals(InventoryAction.PICKUP_ALL)
+						|| e.getAction().equals(InventoryAction.PICKUP_HALF)) {
+					e.setCancelled(true);
+					// p.closeInventory(); Currently Disabled
+				} else {
+					e.setCancelled(true);
+					//p.closeInventory();
+				}
 			} else if (clicked.equals(ItemStacks.getItem("statsButton"))) {
 				if (e.getAction().equals(InventoryAction.PICKUP_ALL)
 						|| e.getAction().equals(InventoryAction.PICKUP_HALF)) {
@@ -521,7 +521,7 @@ public class MenuManager implements Listener {
 					e.setCancelled(true);
 					p.closeInventory();
 				}
-			} else if (clicked.equals(ItemStacks.getItem("settingsMenu"))) {
+			} else if (clicked.equals(ItemStacks.getItem("settingsButton"))) {
 				if (e.getAction().equals(InventoryAction.PICKUP_ALL)
 						|| e.getAction().equals(InventoryAction.PICKUP_HALF)) {
 					e.setCancelled(true);
@@ -567,10 +567,6 @@ public class MenuManager implements Listener {
 						p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 						if (FFAManager.inFfa.contains(p)) {
 							FFAManager.inFfa.remove(p);
-							Bukkit.getServer()
-									.broadcastMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "FFA" + ChatColor.GRAY
-											+ "] " + ChatColor.AQUA + p.getName() + ChatColor.GRAY
-											+ " has left the FFA Arena!");
 						} else if (FightManager.inFight.contains(p)) {
 							FightManager.inFight.remove(p);
 							Bukkit.getServer()
@@ -606,6 +602,13 @@ public class MenuManager implements Listener {
 					Main.getInstance().getConfig().getConfigurationSection(p.getName()).set("HOTBARMODE", 1);
 					e.getInventory().setItem(1, ItemStacks.getItem("hotbarmode1"));
 					p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+				}
+			}
+			if (e.getInventory().equals(Inventories.statsGui)) {
+				if (clicked.equals(ItemStacks.getItem("backButton"))) {
+					e.setCancelled(false);
+				} else {
+					e.setCancelled(true);
 				}
 			}
 

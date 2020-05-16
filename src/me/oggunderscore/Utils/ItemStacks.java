@@ -155,7 +155,22 @@ public class ItemStacks {
 		
 		ItemStack infoButton = new ItemStack(Material.BOOK);
 		ItemMeta infoButtonMeta = infoButton.getItemMeta();
+		ArrayList<String> infoButtonLore = new ArrayList<String>();
 		infoButtonMeta.setDisplayName(ChatColor.WHITE + "" + ChatColor.BOLD + "Server Info");
+		infoButtonLore.add(ChatColor.AQUA + "Core Version 0.96");
+		infoButtonLore.add("");
+		infoButtonLore.add(ChatColor.YELLOW + "Website: " + ChatColor.BOLD + "www.IgnitedPVP.com");
+		infoButtonLore.add(ChatColor.DARK_AQUA + "Discord: " + ChatColor.BOLD + "https://discord.gg/fepAM7U");
+		infoButtonLore.add("");
+		infoButtonLore.add(ChatColor.WHITE + "" + ChatColor.BOLD + "       -- Staff List --");
+		infoButtonLore.add(ChatColor.DARK_RED + "" + ChatColor.BOLD + "OWNER" + ChatColor.RESET + ChatColor.RED + " - dqzzling");
+		infoButtonLore.add(ChatColor.DARK_RED + "" + ChatColor.BOLD + "DEV" + ChatColor.RESET + ChatColor.RED + " - ogg_ & oddfoam");
+		infoButtonLore.add(ChatColor.DARK_RED + "" + ChatColor.BOLD + "LEADER" + ChatColor.RESET + ChatColor.RED + " - Qsxley");
+		infoButtonLore.add(ChatColor.DARK_RED + "" + ChatColor.BOLD + "ADMIN" + ChatColor.RESET + ChatColor.RED + " - N/A");
+		infoButtonLore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "MOD" + ChatColor.RESET + ChatColor.YELLOW + " - CarbonatedFry, dazing, FlooberGaming");
+		infoButtonLore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "HELPER" + ChatColor.RESET + ChatColor.YELLOW + " - AAron, c013y, TheSlimeKing");
+		infoButtonLore.add(ChatColor.BLUE + "" + ChatColor.BOLD + "BUILDER" + ChatColor.RESET + ChatColor.AQUA + " - dazing");
+		infoButtonMeta.setLore(infoButtonLore);
 		infoButton.setItemMeta(infoButtonMeta);
 
 		ItemStack ffa = new ItemStack(Material.DIAMOND);
@@ -231,6 +246,14 @@ public class ItemStacks {
 		kitpvpButtonLore.add(ChatColor.YELLOW + "Opens the KitPVP Menu!");
 		kitpvpButtonMeta.setLore(kitpvpButtonLore);
 		kitpvpButton.setItemMeta(kitpvpButtonMeta);
+		
+		ItemStack unlockButton = new ItemStack(Material.ARMOR_STAND);
+		ItemMeta unlockButtonMeta = unlockButton.getItemMeta();
+		ArrayList<String> unlockButtonLore = new ArrayList<String>();
+		unlockButtonMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Unlock Menu");
+		unlockButtonLore.add(ChatColor.YELLOW + "Opens the unlock Menu!");
+		unlockButtonMeta.setLore(unlockButtonLore);
+		unlockButton.setItemMeta(unlockButtonMeta);
 		
 		ItemStack searchedItem = null;
 
@@ -321,9 +344,15 @@ public class ItemStacks {
 		if (search.equalsIgnoreCase("kitpvpButton")) {
 			searchedItem = kitpvpButton;
 		}
+		if (search.equalsIgnoreCase("unlockButton")) {
+			searchedItem = unlockButton;
+		}
 		
-		
-		return searchedItem;
+		if (searchedItem != null) {
+			return searchedItem;
+		} else {
+			return null;
+		}
 		
 		
 	}

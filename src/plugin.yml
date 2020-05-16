@@ -1,6 +1,6 @@
 name: Core
 main: me.oggunderscore.Core.Main
-version: 0.95
+version: 0.96
 api-version: 1.13
 author: IgnitedMC Development
 description: IgnitedMC's Main Core

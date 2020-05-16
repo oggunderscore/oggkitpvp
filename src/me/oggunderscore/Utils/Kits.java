@@ -262,7 +262,7 @@ public class Kits {
 		ItemStack QuickFix = new ItemStack(Material.LEATHER);
 		ItemMeta qm = QuickFix.getItemMeta();
 		ArrayList<String> lore2 = new ArrayList<String>();
-		lore2.add(ChatColor.YELLOW + "Instantly Heal 1.5 hearts! Cost: 60 Energy");
+		lore2.add(ChatColor.YELLOW + "Instantly Heal 1.5 hearts! Cost: 40 Energy");
 		qm.setLore(lore2);
 		qm.setUnbreakable(true);
 		qm.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Quick Fix");

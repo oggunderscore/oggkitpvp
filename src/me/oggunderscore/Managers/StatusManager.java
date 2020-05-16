@@ -9,5 +9,6 @@ public class StatusManager {
 	public static final ArrayList<Object> gravity = new ArrayList<Object>();
 	public static final ArrayList<String> staff = new ArrayList<String>();
 	public static final ArrayList<Object> codeMode = new ArrayList<Object>();
+	public static final ArrayList<Object> enableFall = new ArrayList<Object>();
 	
 }

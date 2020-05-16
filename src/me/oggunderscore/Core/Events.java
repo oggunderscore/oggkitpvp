@@ -32,6 +32,7 @@ import org.bukkit.util.Vector;
 
 import me.oggunderscore.Managers.FFAManager;
 import me.oggunderscore.Managers.FightManager;
+import me.oggunderscore.Managers.StatusManager;
 import me.oggunderscore.Utils.Inventories;
 import me.oggunderscore.Utils.ItemStacks;
 import me.oggunderscore.Utils.Locations;
@@ -544,6 +545,7 @@ public class Events implements Listener {
 								p.spawnParticle(Particle.EXPLOSION_LARGE, p.getLocation(), 5);
 								PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, 2 * 20, 1);
 								players.addPotionEffect(slow);
+								StatusManager.enableFall.add(players);
 
 							}
 						}
@@ -583,7 +585,7 @@ public class Events implements Listener {
 						p.spawnParticle(Particle.EXPLOSION_NORMAL, p.getLocation(), 5);
 						for (Player players : Bukkit.getOnlinePlayers()) {
 							if (p.getNearbyEntities(2.0, 2.0, 2.0).contains(players)) {
-								players.damage(12.0);
+								players.damage(20.0);
 								players.playEffect(EntityEffect.HURT);
 								p.spawnParticle(Particle.BLOCK_DUST, p.getLocation(), 5);
 							}
@@ -693,15 +695,15 @@ public class Events implements Listener {
 									p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
 									p.spawnParticle(Particle.CRIT, p.getLocation(), 5);
 									p.spawnParticle(Particle.EXPLOSION_HUGE, p.getLocation(), 5);
-									PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 3 * 20,
-											0);
+									PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5 * 20,
+											1);
 									p.addPotionEffect(strength);
 									for (Player players : Bukkit.getOnlinePlayers()) {
 										if (p.getNearbyEntities(5.0, 5.0, 5.0).contains(players)) {
 											players.damage(2.0);
 											players.playEffect(EntityEffect.HURT);
 											p.spawnParticle(Particle.SPELL_INSTANT, p.getLocation(), 5);
-											PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, 5 * 20, 1);
+											PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, 10 * 20, 3);
 											players.addPotionEffect(slow);
 										}
 									}
@@ -862,9 +864,9 @@ public class Events implements Listener {
 					p.getInventory().setItem(0, ItemStacks.getItem("kitpvpButton"));
 
 					if (Main.getInstance().getConfig().getConfigurationSection(killer.getName()).get("KIT").equals("TANK")) {
-						PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 5, 1);
+						PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 15, 1);
 						killer.addPotionEffect(strength);
-						PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 20 * 5, 1);
+						PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 20 * 15, 1);
 						killer.addPotionEffect(speed);
 
 					}

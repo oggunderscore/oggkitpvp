@@ -7,7 +7,7 @@ import org.bukkit.potion.PotionEffect;
 
 public class Inventories {
 	
-	public static Inventory kitGui = Bukkit.createInventory(null, 18, "KitPVP Menu");
+	public static Inventory kitGui = Bukkit.createInventory(null, 27, "KitPVP Menu");
 	public static Inventory itemGui = Bukkit.createInventory(null, 9, "Item Menu");
 	public static Inventory settingsGui = Bukkit.createInventory(null, 9, "KitPVP Settings");
 	public static Inventory statsGui = Bukkit.createInventory(null, 9, "KitPVP Stats");
