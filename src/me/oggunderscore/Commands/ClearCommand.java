@@ -1,6 +1,5 @@
 package me.oggunderscore.Commands;
 
-import javafx.print.PageLayout;
 import me.oggunderscore.Utils.ChatColorChange;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
