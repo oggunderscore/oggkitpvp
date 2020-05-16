@@ -15,7 +15,11 @@ import me.oggunderscore.Utils.Locations;
 import me.oggunderscore.Utils.Prefix;
 import me.oggunderscore.Utils.Worlds;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameCommands implements CommandExecutor {
+
 
 
 
@@ -23,6 +27,8 @@ public class GameCommands implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
 
 		Player p = (Player) sender;
+
+
 
 		if (cmd.getName().equalsIgnoreCase("urf")) {
 			if (p.isOp()) {

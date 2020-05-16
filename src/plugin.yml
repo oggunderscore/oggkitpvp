@@ -59,6 +59,10 @@ commands:
         description: Force Deop!
     urf:
         description: ez
+    heal:
+        description: Heal yourself or others!
+    fly:
+        description: Toggle fly on and off
 permissions:
     oggcore.staff:
         default: false
