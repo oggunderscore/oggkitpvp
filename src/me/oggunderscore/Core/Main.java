@@ -1,6 +1,7 @@
 package me.oggunderscore.Core;
 
 import me.oggunderscore.Commands.*;
+import me.oggunderscore.Utils.ActionBar;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
@@ -15,6 +16,9 @@ import me.oggunderscore.Managers.MenuManager;
 import me.oggunderscore.Utils.Locations;
 import me.oggunderscore.Utils.Prefix;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 public class Main extends JavaPlugin {
 
 	private static Plugin instance;
@@ -23,8 +27,16 @@ public class Main extends JavaPlugin {
 	public static Plugin getInstance() {
 		return instance;
 	}
-	
+
+	private ArrayList<UUID> uuids;
+
+	private ActionBar actionBar;
+
 	public void onEnable() {
+
+		uuids = new ArrayList<>();
+
+
 
 		ArenaManager.arenaNumber = 0;
 		ArenaManager.chosenArena1 = Locations.twilightArena1;
@@ -33,7 +45,8 @@ public class Main extends JavaPlugin {
 
 		getConfig().options().copyDefaults(true);
 		PluginManager pm = Bukkit.getServer().getPluginManager();
-		pm.registerEvents(new Events(), this);
+		pm.registerEvents(new Events(this, uuids
+		), this);
 		pm.registerEvents(new FightManager(), this);
 		pm.registerEvents(new FFAManager(), this);
 		pm.registerEvents(new EnvironmentManager(), this);
@@ -71,7 +84,9 @@ public class Main extends JavaPlugin {
 		getCommand("oggclear").setExecutor(new StaffCommands());
 		getCommand("oggdeop").setExecutor(new StaffCommands());
 		getCommand("urf").setExecutor(new GameCommands());
-		
+
+		getCommand("vanish").setExecutor(new VanishCommand(this, uuids));
+
 		instance = this; //  What does this do?
 
 

@@ -65,6 +65,8 @@ commands:
         description: Toggle fly on and off
     ping:
         description: Checks a player's ping.
+    vanish:
+        description: vanish yourself.
 permissions:
     oggcore.staff:
         default: false

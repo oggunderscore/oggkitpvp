@@ -1,6 +1,13 @@
 package me.oggunderscore.Core;
 
 import java.util.ArrayList;
+import java.util.UUID;
+
+import com.mysql.fabric.xmlrpc.base.Array;
+import me.oggunderscore.Utils.*;
+import me.oggunderscore.Utils.ActionBar;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -23,6 +30,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -33,10 +41,6 @@ import org.bukkit.util.Vector;
 import me.oggunderscore.Managers.FFAManager;
 import me.oggunderscore.Managers.FightManager;
 import me.oggunderscore.Managers.StatusManager;
-import me.oggunderscore.Utils.Inventories;
-import me.oggunderscore.Utils.ItemStacks;
-import me.oggunderscore.Utils.Locations;
-import me.oggunderscore.Utils.Worlds;
 
 @SuppressWarnings("deprecation")
 public class Events implements Listener {
@@ -67,7 +71,33 @@ public class Events implements Listener {
 	public static int cdCloak = 20;
 	
 	private Player thrower;
-	
+
+
+	private Main main;
+	private ArrayList<UUID> uuids;
+	public Events(Main main, ArrayList<UUID> uuids) {
+
+		 this.uuids = uuids;
+		this.main = main;
+	}
+
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
+
+		Player player = event.getPlayer();
+
+		UUID uuid = player.getUniqueId();
+
+		if (uuids.contains(uuid)) {
+
+		 new ActionBar(player, ChatColorChange.chat("&7You are in &9vanish &7mode. &7You are only visible to &6Mod+"), main, uuids);
+
+		}
+
+
+	}
+
+
 	@EventHandler
 	public void onPlayerPickup(EntityPickupItemEvent e) {
 		
