@@ -57,8 +57,7 @@ public class Main extends JavaPlugin {
 		getCommand("poke").setExecutor(new PlayerCommands());
 		getCommand("staff").setExecutor(new PlayerCommands());
 		getCommand("ranks").setExecutor(new PlayerCommands());
-
-		
+		getCommand("ping").setExecutor(new PingCommand());
 		
 		//getCommand("autocast").setExecutor(new GameCommands()); // Disabled
 		//getCommand("hotbarmode").setExecutor(new GameCommands());

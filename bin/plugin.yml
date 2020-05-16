@@ -63,6 +63,8 @@ commands:
         description: Heal yourself or others!
     fly:
         description: Toggle fly on and off
+    ping:
+        description: Checks a player's ping.
 permissions:
     oggcore.staff:
         default: false
