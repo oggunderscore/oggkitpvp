@@ -67,6 +67,9 @@ commands:
         description: Checks a player's ping.
     vanish:
         description: vanish yourself.
+    broadcast:
+        aliases: [bc]
+        description: Broadcast a message to everyone.
 permissions:
     oggcore.staff:
         default: false

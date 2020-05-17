@@ -77,7 +77,7 @@ public class Main extends JavaPlugin {
 		getCommand("kitpvp").setExecutor(new GameCommands());
 		getCommand("heal").setExecutor(new HealCommand());
 		getCommand("fly").setExecutor(new FlyCommand());
-
+		getCommand("broadcast").setExecutor(new BroadcastCommand());
 		getCommand("items").setExecutor(new StaffCommands());
 		getCommand("forceleave").setExecutor(new StaffCommands());
 		getCommand("code").setExecutor(new StaffCommands());

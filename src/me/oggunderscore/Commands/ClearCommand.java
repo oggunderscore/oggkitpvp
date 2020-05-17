@@ -1,6 +1,7 @@
 package me.oggunderscore.Commands;
 
 import me.oggunderscore.Utils.ChatColorChange;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,23 +17,33 @@ public class ClearCommand implements Listener {
     public void onPreCommand(PlayerCommandPreprocessEvent e){
 
         Player player = e.getPlayer();
-        if(e.getMessage().startsWith("/clear")){
 
-            e.setCancelled(true);
+        String[] args = e.getMessage().split(" ");
 
-            if (player.hasPermission("core.clear")) {
+        if(args[0].equalsIgnoreCase("/clear")){
 
-
-                player.getInventory().clear();
-
-                 player.sendMessage(ChatColorChange.chat("&7[&9Inventory&7] &7Inventory Items Cleared!"));
+                 e.setCancelled(true);
 
 
-            } else {
+                 if (Bukkit.getPlayer(args[1]) != null) {
 
-                player.sendMessage(ChatColorChange.chat("&7[&9Permissions&7] &7No permission."));
+                     Player targetPlayer = Bukkit.getPlayer(args[1]);
 
-             }
+                     targetPlayer.getInventory().clear();
+
+                     player.sendMessage(ChatColorChange.chat("&7[&9Inventory&7] &7Inventory Items Cleared For Player &e" + targetPlayer.getDisplayName() + "!"));
+                 }
+
+
+
+
+
+
+
+
+
+                return;
+
 
 
         }
