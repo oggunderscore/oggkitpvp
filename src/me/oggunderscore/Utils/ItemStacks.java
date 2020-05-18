@@ -157,7 +157,7 @@ public class ItemStacks {
 		ItemMeta infoButtonMeta = infoButton.getItemMeta();
 		ArrayList<String> infoButtonLore = new ArrayList<String>();
 		infoButtonMeta.setDisplayName(ChatColor.WHITE + "" + ChatColor.BOLD + "Server Info");
-		infoButtonLore.add(ChatColor.AQUA + "Core Version 0.96");
+		infoButtonLore.add(ChatColor.AQUA + "Core Version 0.97");
 		infoButtonLore.add("");
 		infoButtonLore.add(ChatColor.YELLOW + "Website: " + ChatColor.BOLD + "www.IgnitedPVP.com");
 		infoButtonLore.add(ChatColor.DARK_AQUA + "Discord: " + ChatColor.BOLD + "https://discord.gg/fepAM7U");

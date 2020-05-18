@@ -3,6 +3,7 @@ package me.oggunderscore.Managers;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -11,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFadeEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -86,6 +88,91 @@ public class EnvironmentManager implements Listener {
 			}
 		}
 	}
+	
+	@EventHandler
+	public void onAttack(EntityDamageByEntityEvent e) {
+		if (e.getEntity() instanceof Player) {
+			
+			if (!(e.getDamager() instanceof Player)) {
+				return;
+			}
+			
+			Player damager = (Player) e.getDamager();
+			Player p = (Player) e.getEntity();
+
+			if (!p.canSee(damager)) {
+				damager.sendMessage(
+						ChatColor.GRAY + "[" + ChatColor.WHITE + "Cloak" + ChatColor.GRAY + "] You cancelled your cloak!");
+				if (p.hasPotionEffect(PotionEffectType.INVISIBILITY))
+					p.removePotionEffect(PotionEffectType.INVISIBILITY);
+
+				for (Player players : Bukkit.getOnlinePlayers()) {
+					players.showPlayer(Main.getInstance(), damager);
+				}
+				Worlds.kitpvpWorld.playSound(damager.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
+				p.spawnParticle(Particle.EXPLOSION_HUGE, p.getLocation(), 5);
+				p.spawnParticle(Particle.SMOKE_LARGE, p.getLocation(), 5);
+
+			}
+
+			if (Main.getInstance().getConfig().getConfigurationSection(damager.getName()).get("KIT").equals("BERSERKER")) {
+				if (damager.getLevel() <= 80) {
+					damager.setLevel(damager.getLevel() + 20);
+				} else {
+					damager.setLevel(100);
+				}
+			}
+
+			if (p.getHealth() <= 0) {
+
+				if (p.getWorld().equals(Worlds.kitpvpWorld)) {
+
+					Player killer = (Player) p.getKiller();
+
+					if (FFAManager.inFfa.contains(killer)) {
+						Integer newKillerGold = (Integer) Main.getInstance().getConfig().getConfigurationSection(killer.getName()).get("GOLD")
+								+ 50;
+						Main.getInstance().getConfig().getConfigurationSection(killer.getName()).set("GOLD", newKillerGold);
+						killer.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "FFA" + ChatColor.GRAY
+								+ "] You collected " + ChatColor.GOLD + "" + ChatColor.BOLD + "50 Gold "
+								+ ChatColor.GRAY + "for killing " + ChatColor.RED + p.getName());
+					}
+
+					// EXP LEVELING?
+
+					Inventories.clear(p);
+					p.setGameMode(GameMode.ADVENTURE);
+					p.teleport(Locations.spawn);
+					p.getInventory().setItem(0, ItemStacks.getItem("kitpvpButton"));
+
+					if (Main.getInstance().getConfig().getConfigurationSection(killer.getName()).get("KIT").equals("TANK")) {
+						PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 15, 1);
+						killer.addPotionEffect(strength);
+						PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 20 * 15, 1);
+						killer.addPotionEffect(speed);
+
+					}
+
+					if (FightManager.inFight.contains(FightManager.fighter1)
+							|| FightManager.inFight.contains(FightManager.fighter2)) {
+						FightManager.winner = p.getKiller();
+						FightManager.loser = p;
+						FightManager.endGame();
+						FightManager.winner.setHealth(20.0);
+						FightManager.loser.setHealth(20.0);
+
+					}
+					for (PotionEffect effect : p.getActivePotionEffects()) {
+						p.removePotionEffect(effect.getType());
+					}
+					FFAManager.inFfa.remove(p);
+					e.setCancelled(true);
+				}
+			}
+		}
+
+	}
+	
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent e) {
@@ -352,11 +439,10 @@ public class EnvironmentManager implements Listener {
 				p.setGameMode(GameMode.ADVENTURE);
 				p.teleport(Locations.kitpvpSpawn);
 			}
-		}
-		else {
+		} else {
 			Player p = (Player) e.getEntity();
 			
-			if (p.getKiller() instanceof Entity) {
+			if (p.getKiller() instanceof Entity && !(p.getKiller() instanceof Player)) {
 				Entity killer = p.getKiller();
 				EntityType killerName = killer.getType();
 				e.setDeathMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "Death" + ChatColor.GRAY + "] " + ChatColor.AQUA
