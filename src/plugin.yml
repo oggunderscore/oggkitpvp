@@ -66,6 +66,7 @@ commands:
     ping:
         description: Checks a player's ping.
     vanish:
+        aliases: [v]
         description: vanish yourself.
     broadcast:
         aliases: [bc]

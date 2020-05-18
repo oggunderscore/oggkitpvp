@@ -24,7 +24,7 @@ public class ClearCommand implements Listener {
 
                  e.setCancelled(true);
 
-
+            if (args.length >=2) {
                  if (Bukkit.getPlayer(args[1]) != null) {
 
                      Player targetPlayer = Bukkit.getPlayer(args[1]);
@@ -32,6 +32,12 @@ public class ClearCommand implements Listener {
                      targetPlayer.getInventory().clear();
 
                      player.sendMessage(ChatColorChange.chat("&7[&9Inventory&7] &7Inventory Items Cleared For Player &e" + targetPlayer.getDisplayName() + "!"));
+
+                     }
+                 } else {
+                     player.sendMessage(ChatColorChange.chat("&7[&9Inventory&7] Invalid Player!"));
+
+
                  }
 
 
