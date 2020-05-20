@@ -4,7 +4,9 @@ version: 0.97
 api-version: 1.13
 author: IgnitedMC Development
 description: IgnitedMC's Main Core
-commands: 
+commands:
+    invsee:
+        description: See a players inventory
     tp:
         description: Teleport to someone
     fight:

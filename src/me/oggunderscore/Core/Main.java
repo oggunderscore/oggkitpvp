@@ -53,6 +53,7 @@ public class Main extends JavaPlugin {
 		pm.registerEvents(new MenuManager(), this);
 		pm.registerEvents(new FlyCommand(), this);
 
+		getCommand("invsee").setExecutor(new InvseeCommand());
 		getCommand("tp").setExecutor(new TeleportCommand());
 		getCommand("dev").setExecutor(new StaffCommands());
 		getCommand("stats").setExecutor(new PlayerCommands());
