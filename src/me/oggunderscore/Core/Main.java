@@ -92,7 +92,7 @@ public class Main extends JavaPlugin {
 
 
 		Bukkit.getServer().broadcastMessage(Prefix.corePrefix + "has been enabled!");
-		Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "" + ChatColor.ITALIC + "Plugin Version 0.97");
+		Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "" + ChatColor.ITALIC + "Plugin Version 0.98");
 
 		saveConfig();
 

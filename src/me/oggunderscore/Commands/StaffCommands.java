@@ -19,8 +19,10 @@ import me.oggunderscore.Managers.FFAManager;
 import me.oggunderscore.Managers.FightManager;
 import me.oggunderscore.Managers.StatusManager;
 import me.oggunderscore.Utils.Inventories;
+import me.oggunderscore.Utils.ItemStacks;
 import me.oggunderscore.Utils.Locations;
 import me.oggunderscore.Utils.Prefix;
+import me.oggunderscore.Utils.Worlds;
 
 public class StaffCommands implements CommandExecutor {
 
@@ -162,7 +164,7 @@ public class StaffCommands implements CommandExecutor {
 				for (Player players : Bukkit.getOnlinePlayers()) {
 					if (FFAManager.inFfa.contains(players)) {
 						Player target = players;
-						if (target.getWorld().equals(Bukkit.getWorld("kitpvp"))) {
+						if (target.getWorld().equals(Worlds.kitpvpWorld)) {
 							target.setCanPickupItems(false);
 							target.setHealth(20.0);
 							target.setFoodLevel(20);
@@ -170,7 +172,8 @@ public class StaffCommands implements CommandExecutor {
 							target.setCanPickupItems(true);
 							Inventories.clear(p);
 							target.teleport(Locations.kitpvpSpawn);
-							target.setGameMode(GameMode.SURVIVAL);
+							target.setGameMode(GameMode.ADVENTURE);
+							p.getInventory().setItem(0, ItemStacks.getItem("kitpvpButton"));
 							target.playSound(target.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 							if (FFAManager.inFfa.contains(target)) {
 								FFAManager.inFfa.remove(target);
