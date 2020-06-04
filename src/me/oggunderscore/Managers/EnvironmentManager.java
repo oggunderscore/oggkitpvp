@@ -1,5 +1,8 @@
 package me.oggunderscore.Managers;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -13,13 +16,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -36,6 +37,8 @@ import me.oggunderscore.Utils.Locations;
 import me.oggunderscore.Utils.Worlds;
 
 public class EnvironmentManager implements Listener {
+	
+	public static HashMap<Player, Player> damageList = new HashMap<>();
 	
 	
 	
@@ -61,11 +64,12 @@ public class EnvironmentManager implements Listener {
 				+ "] Your gamemode was changed to " + ChatColor.GREEN + e.getNewGameMode());
 	}
 
-	
+	/* // Unused Code??? June 3 2020 
 	@EventHandler
 	public void onFall(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player) {
 			Player p = (Player) e.getEntity();
+
 			
 			if (p.getHealth() - e.getDamage() <= 0.0) {
 				String cause = e.getCause().toString();
@@ -87,7 +91,7 @@ public class EnvironmentManager implements Listener {
 				}
 			}
 		}
-	}
+	}*/
 	
 	@EventHandler
 	public void onAttack(EntityDamageByEntityEvent e) {
@@ -100,6 +104,9 @@ public class EnvironmentManager implements Listener {
 			Player damager = (Player) e.getDamager();
 			Player p = (Player) e.getEntity();
 
+			// T1: Set Damager as last damager
+			damageList.put(p, damager);
+			
 			if (!p.canSee(damager)) {
 				damager.sendMessage(
 						ChatColor.GRAY + "[" + ChatColor.WHITE + "Cloak" + ChatColor.GRAY + "] You cancelled your cloak!");
@@ -123,6 +130,8 @@ public class EnvironmentManager implements Listener {
 				}
 			}
 
+			
+			/*// Unnecessary code? June 3 2020
 			if (p.getHealth() <= 0) {
 
 				if (p.getWorld().equals(Worlds.kitpvpWorld)) {
@@ -168,7 +177,7 @@ public class EnvironmentManager implements Listener {
 					FFAManager.inFfa.remove(p);
 					e.setCancelled(true);
 				}
-			}
+			}*/ 
 		}
 
 	}
@@ -178,6 +187,9 @@ public class EnvironmentManager implements Listener {
 	public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
 		String pName = p.getName();
+		
+		// Setup Hashmap for Last Damager
+		damageList.put(p, null);
 		
 		e.setJoinMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "Join" + ChatColor.GRAY + "] " + p.getName());
 		for (Player players : Bukkit.getOnlinePlayers()) {
@@ -227,6 +239,9 @@ public class EnvironmentManager implements Listener {
 	public void onLeave(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
 		e.setQuitMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "Leave" + ChatColor.GRAY + "] " + p.getName());
+		
+		// T1: Remove player from damaging list
+		damageList.remove(p);
 	}
 
 	@EventHandler
@@ -244,7 +259,7 @@ public class EnvironmentManager implements Listener {
 	}
 	
 	
-	/*
+	/* Code for chat system on internal ranks
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
@@ -314,14 +329,15 @@ public class EnvironmentManager implements Listener {
 	}
 	
 	@EventHandler
-	public void ont(PlayerDeathEvent e) {
-		if (e.getEntity() instanceof Player) {
+	public void onDeath(PlayerDeathEvent e) {
+
 		
 
 			Player p = (Player) e.getEntity();
 			
+			if (p.getKiller() instanceof Player) {
 			
-			Player killer = (Player) p.getKiller();
+			Player killer = damageList.get(p);
 			if (killer != null) {
 				double killerHealth = killer.getHealth();
 				killerHealth = Math.round(killerHealth);
@@ -343,7 +359,7 @@ public class EnvironmentManager implements Listener {
 				}
 			} else {
 				e.setDeathMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "Death" + ChatColor.GRAY + "] " + ChatColor.AQUA
-						+ p.getName() + ChatColor.GRAY + " died.");
+						+ p.getName() + ChatColor.GRAY + " died of unknown cause.");
 			}
 
 			if (p.getWorld().equals(Worlds.kitpvpWorld) && killer != null) {
@@ -440,7 +456,6 @@ public class EnvironmentManager implements Listener {
 				p.teleport(Locations.kitpvpSpawn);
 			}
 		} else {
-			Player p = (Player) e.getEntity();
 			
 			if (p.getKiller() instanceof Entity && !(p.getKiller() instanceof Player)) {
 				Entity killer = p.getKiller();

@@ -38,6 +38,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import me.oggunderscore.Managers.EnvironmentManager;
 import me.oggunderscore.Managers.FFAManager;
 import me.oggunderscore.Managers.FightManager;
 import me.oggunderscore.Managers.StatusManager;
@@ -81,8 +82,8 @@ public class Events implements Listener {
 		this.main = main;
 	}
 
-	@EventHandler
-	public void onJoin(PlayerJoinEvent event) {
+	@EventHandler // @OddFoam, merge with Environment Manager join event?
+	public void onJoin2(PlayerJoinEvent event) {
 
 		Player player = event.getPlayer();
 
@@ -217,6 +218,7 @@ public class Events implements Listener {
 						for (Player players : Bukkit.getOnlinePlayers()) {
 							if (p.getNearbyEntities(5.0, 5.0, 5.0).contains(players)) {
 								players.damage(2.0);
+								EnvironmentManager.damageList.put(players, p);
 								players.playEffect(EntityEffect.HURT);
 								Worlds.kitpvpWorld.spawnParticle(Particle.SPELL_INSTANT, p.getLocation(), 5);
 								PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, 5 * 20, 4);
@@ -287,9 +289,10 @@ public class Events implements Listener {
 						
 						p.getInventory().setHeldItemSlot(oldSlot);
 
-						for (Entity entities : Bukkit.getOnlinePlayers()) {
-							if (p.getNearbyEntities(3.0, 3.0, 3.0).contains(entities)) {
-								entities.setFireTicks(9 * 20);
+						for (Player players : Bukkit.getOnlinePlayers()) {
+							if (p.getNearbyEntities(3.0, 3.0, 3.0).contains(players)) {
+								players.setFireTicks(9 * 20);
+								EnvironmentManager.damageList.put(players, p);
 								Worlds.kitpvpWorld.spawnParticle(Particle.FLAME, p.getLocation(), 5);
 								p.getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
 							}
@@ -333,25 +336,6 @@ public class Events implements Listener {
 
 		if (e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
 			if (e.getItem() != null) {
-				if (e.getItem().getType().equals(Material.ENDER_PEARL)) {
-					if (e.getItem().getAmount() <= 3) {
-						p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-					} else if (e.getItem().getAmount() >= 4) {
-						p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-						Worlds.kitpvpWorld.spawnParticle(Particle.SPELL, p.getLocation(), 9);
-
-						// int xp = p.getTotalExperience();
-						// p.setTotalExperience(xp + 100);
-						int level = p.getLevel();
-						p.setLevel(level + 1);
-						if (e.getItem().getAmount() == 4) {
-							e.getItem().setAmount(0); // ???Possible fix to remove all charges
-						} else {
-							int newPearl = e.getItem().getAmount() - 4;
-							e.getItem().setAmount(newPearl);
-						}
-					}
-				}
 
 				if (e.getItem().hasItemMeta()) {
 					if (e.getItem().getItemMeta().hasDisplayName()) {
@@ -397,73 +381,6 @@ public class Events implements Listener {
 
 		if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			if (e.getItem() != null) {
-
-				if (e.getItem().getType().equals(Material.SUGAR)) {
-					p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
-					PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 3 * 20, 20);
-					p.addPotionEffect(speed);
-					Worlds.kitpvpWorld.spawnParticle(Particle.CLOUD, p.getLocation(), 5);
-
-					if (e.getItem().getAmount() == 1) {
-						e.getItem().setAmount(0);
-					} else {
-						int newSugar = e.getItem().getAmount() - 1;
-						e.getItem().setAmount(newSugar);
-					}
-				}
-				if (e.getItem().getType().equals(Material.CLAY_BALL)) {
-					if (p.getLevel() >= 100) {
-						p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-						Worlds.kitpvpWorld.spawnParticle(Particle.SPELL_WITCH, p.getLocation(), 5);
-						p.setLevel(p.getLevel() - 100);
-
-						ItemStack cloningClay = new ItemStack(Material.CLAY_BALL);
-						ItemMeta cc = cloningClay.getItemMeta();
-						ArrayList<String> loreclay = new ArrayList<String>();
-						cc.setDisplayName(ChatColor.BLUE + "" + ChatColor.BOLD + "Cloning Clay");
-						loreclay.add(ChatColor.YELLOW + "Drag and click onto an item to clone it!");
-						cc.setLore(loreclay);
-						cloningClay.setItemMeta(cc);
-						cc.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-
-						p.getInventory().addItem(cloningClay);
-
-						if (e.getItem().getAmount() == 1) {
-							e.getItem().setAmount(0);
-						} else {
-							int newClay = e.getItem().getAmount() - 1;
-							e.getItem().setAmount(newClay);
-						}
-					} else {
-						p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-					}
-				}
-
-				if (e.getItem().getType().equals(Material.PAPER)) {
-					if (p.getWorld().equals(Bukkit.getWorld("world"))) {
-						if (!e.getItem().getItemMeta().getDisplayName().contains("Bank")) {
-
-							p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
-
-							double playerHealth = p.getHealth();
-
-							if (playerHealth >= p.getMaxHealth() - 1.0) {
-								p.setHealth(p.getMaxHealth());
-								Worlds.kitpvpWorld.spawnParticle(Particle.HEART, p.getLocation(), 5);
-							} else {
-								p.setHealth(playerHealth + 1.0);
-								Worlds.kitpvpWorld.spawnParticle(Particle.HEART, p.getLocation(), 5);
-							}
-
-							if (e.getItem().getAmount() == 1) {
-								e.getItem().setAmount(0);
-							} else {
-								int newPaper = e.getItem().getAmount() - 1;
-								e.getItem().setAmount(newPaper);
-							}
-						}
-					}
-				}
 				if (e.getItem().getItemMeta().getDisplayName().equals("Blink!")) {
 					if (cooldownBlink.contains(p)) {
 						p.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "Cooldown" + ChatColor.GRAY
@@ -568,23 +485,24 @@ public class Events implements Listener {
 						cooldownEarthquake.add(p);
 						p.getWorld().playSound(p.getLocation(), Sound.ENTITY_BLAZE_HURT, 1, 1);
 						for (Player players : Bukkit.getOnlinePlayers()) {
-							if (p.getNearbyEntities(7.0, 7.0, 7.0).contains(players)) {
-								//players.damage(12.0);
+							if (p.getNearbyEntities(8.0, 8.0, 8.0).contains(players)) {
+								players.damage(12.0);
+								EnvironmentManager.damageList.put(players, p);
 								Vector knockup = players.getLocation().getDirection().multiply(0.1D)
 										.setY(1.8D);
 								players.setVelocity(knockup);
 								Worlds.kitpvpWorld.spawnParticle(Particle.EXPLOSION_LARGE, p.getLocation(), 5);
 								PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, 2 * 20, 1);
 								players.addPotionEffect(slow);
-								StatusManager.enableFall.add(players);
+								//StatusManager.enableFall.add(players); 
 
 							}
 						}
 
 						for (Player players1 : Bukkit.getOnlinePlayers()) {
-							if (p.getNearbyEntities(4.0, 4.0, 4.0).contains(players1)) {
-								//Worlds.kitpvpWorld.strikeLightning(players1.getLocation()); Temp disabled lightning
-
+							if (p.getNearbyEntities(12.0, 12.0, 12.0).contains(players1)) {
+								Worlds.kitpvpWorld.strikeLightning(players1.getLocation()); 
+								EnvironmentManager.damageList.put(players1, p);
 							}
 						}
 
@@ -617,6 +535,7 @@ public class Events implements Listener {
 						for (Player players : Bukkit.getOnlinePlayers()) {
 							if (p.getNearbyEntities(2.0, 2.0, 2.0).contains(players)) {
 								players.damage(20.0);
+								EnvironmentManager.damageList.put(players, p);
 								players.playEffect(EntityEffect.HURT);
 								Worlds.kitpvpWorld.spawnParticle(Particle.BLOCK_DUST, p.getLocation(), 5);
 							}
@@ -732,6 +651,7 @@ public class Events implements Listener {
 									for (Player players : Bukkit.getOnlinePlayers()) {
 										if (p.getNearbyEntities(5.0, 5.0, 5.0).contains(players)) {
 											players.damage(2.0);
+											EnvironmentManager.damageList.put(players, p);
 											players.playEffect(EntityEffect.HURT);
 											Worlds.kitpvpWorld.spawnParticle(Particle.SPELL_INSTANT, p.getLocation(), 5);
 											PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, 10 * 20, 3);
@@ -800,9 +720,10 @@ public class Events implements Listener {
 									p.getWorld().playEffect(p.getLocation(), Effect.MOBSPAWNER_FLAMES, 2);
 
 
-									for (Entity entities : Bukkit.getOnlinePlayers()) {
-										if (p.getNearbyEntities(3.0, 3.0, 3.0).contains(entities)) {
-											entities.setFireTicks(9 * 20);
+									for (Player players : Bukkit.getOnlinePlayers()) {
+										if (p.getNearbyEntities(3.0, 3.0, 3.0).contains(players)) {
+											players.setFireTicks(9 * 20);
+											EnvironmentManager.damageList.put(players, p);
 											Worlds.kitpvpWorld.spawnParticle(Particle.FLAME, p.getLocation(), 5);
 											p.getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
 
