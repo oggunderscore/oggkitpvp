@@ -45,8 +45,7 @@ public class Main extends JavaPlugin {
 
 		getConfig().options().copyDefaults(true);
 		PluginManager pm = Bukkit.getServer().getPluginManager();
-		pm.registerEvents(new Events(this, uuids
-		), this);
+		pm.registerEvents(new Events(this, uuids), this);
 		pm.registerEvents(new FightManager(), this);
 		pm.registerEvents(new FFAManager(), this);
 		pm.registerEvents(new EnvironmentManager(), this);
@@ -81,7 +80,7 @@ public class Main extends JavaPlugin {
 		getCommand("broadcast").setExecutor(new BroadcastCommand());
 		getCommand("items").setExecutor(new StaffCommands());
 		getCommand("forceleave").setExecutor(new StaffCommands());
-		getCommand("code").setExecutor(new StaffCommands());
+		//getCommand("code").setExecutor(new StaffCommands()); disabled
 		getCommand("oggclear").setExecutor(new StaffCommands());
 		getCommand("oggdeop").setExecutor(new StaffCommands());
 		getCommand("urf").setExecutor(new GameCommands());

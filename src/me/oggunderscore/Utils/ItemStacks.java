@@ -254,6 +254,14 @@ public class ItemStacks {
 		unlockButtonLore.add(ChatColor.YELLOW + "Opens the unlock Menu!");
 		unlockButtonMeta.setLore(unlockButtonLore);
 		unlockButton.setItemMeta(unlockButtonMeta);
+
+		ItemStack allKitsUnlocked = new ItemStack(Material.BELL);
+		ItemMeta allKitsUnlockedMeta = allKitsUnlocked.getItemMeta();
+		ArrayList<String> allKitsUnlockedLore = new ArrayList<String>();
+		allKitsUnlockedMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "ALL KITS UNLOCKED! Congrats!");
+		allKitsUnlockedLore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "More coming soon!");
+		allKitsUnlockedMeta.setLore(allKitsUnlockedLore);
+		allKitsUnlocked.setItemMeta(allKitsUnlockedMeta);
 		
 		ItemStack searchedItem = null;
 
@@ -346,6 +354,9 @@ public class ItemStacks {
 		}
 		if (search.equalsIgnoreCase("unlockButton")) {
 			searchedItem = unlockButton;
+		}
+		if (search.equalsIgnoreCase("allKitsUnlocked")) {
+			searchedItem = allKitsUnlocked;
 		}
 		
 		if (searchedItem != null) {

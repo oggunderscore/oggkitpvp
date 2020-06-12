@@ -32,62 +32,7 @@ import me.oggunderscore.Utils.Worlds;
 
 public class MenuManager implements Listener {
 
-	public static void setupUIButtons() {
-		Inventories.kitGui.setItem(0, ItemStacks.getItem("Default"));
-		Inventories.kitGui.setItem(1, ItemStacks.getItem("tank"));
-		Inventories.kitGui.setItem(2, ItemStacks.getItem("ares"));
-		Inventories.kitGui.setItem(3, ItemStacks.getItem("berserker"));
-		Inventories.kitGui.setItem(4, ItemStacks.getItem("thor"));
-		Inventories.kitGui.setItem(5, ItemStacks.getItem("apollo"));
-		Inventories.kitGui.setItem(6, ItemStacks.getItem("hades"));
-		Inventories.kitGui.setItem(7, ItemStacks.getItem("ninja"));
 
-		Inventories.kitGui.setItem(9, ItemStacks.getItem("ffa"));
-		Inventories.kitGui.setItem(13, ItemStacks.getItem("leave"));
-		Inventories.kitGui.setItem(22, ItemStacks.getItem("unlockButton"));
-		Inventories.kitGui.setItem(23, ItemStacks.getItem("settingsButton"));
-		Inventories.kitGui.setItem(24, ItemStacks.getItem("statsButton"));
-		Inventories.kitGui.setItem(25, ItemStacks.getItem("infoButton"));
-		Inventories.kitGui.setItem(26, ItemStacks.getItem("closeMenu"));
-		// InventoryManager.kitGui.setItem(10, ItemStacks.getItem("ffa2"));
-	}
-
-	public static void setupMenu(Player p) {
-		setupUIButtons();
-		if (Main.getInstance().getConfig().getConfigurationSection(p.getName()).get("KIT").equals("DEFAULT")) {
-			Inventories.kitGui.setItem(0, ItemStacks.getItem("DefaultSelected"));
-			Inventories.kitGui.getItem(0).addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-		}
-		if (Main.getInstance().getConfig().getConfigurationSection(p.getName()).get("KIT").equals("TANK")) {
-			Inventories.kitGui.setItem(1, ItemStacks.getItem("tankSelected"));
-			Inventories.kitGui.getItem(1).addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-		}
-		if (Main.getInstance().getConfig().getConfigurationSection(p.getName()).get("KIT").equals("ARES")) {
-			Inventories.kitGui.setItem(2, ItemStacks.getItem("aresSelected"));
-			Inventories.kitGui.getItem(2).addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-		}
-		if (Main.getInstance().getConfig().getConfigurationSection(p.getName()).get("KIT").equals("BERSERKER")) {
-			Inventories.kitGui.setItem(3, ItemStacks.getItem("berserkerSelected"));
-			Inventories.kitGui.getItem(3).addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-		}
-		if (Main.getInstance().getConfig().getConfigurationSection(p.getName()).get("KIT").equals("THOR")) {
-			Inventories.kitGui.setItem(4, ItemStacks.getItem("thorSelected"));
-			Inventories.kitGui.getItem(4).addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-		}
-		if (Main.getInstance().getConfig().getConfigurationSection(p.getName()).get("KIT").equals("APOLLO")) {
-			Inventories.kitGui.setItem(5, ItemStacks.getItem("apolloSelected"));
-			Inventories.kitGui.getItem(5).addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-
-		}
-		if (Main.getInstance().getConfig().getConfigurationSection(p.getName()).get("KIT").equals("HADES")) {
-			Inventories.kitGui.setItem(6, ItemStacks.getItem("hadesSelected"));
-			Inventories.kitGui.getItem(6).addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-		}
-		if (Main.getInstance().getConfig().getConfigurationSection(p.getName()).get("KIT").equals("NINJA")) {
-			Inventories.kitGui.setItem(7, ItemStacks.getItem("ninjaSelected"));
-			Inventories.kitGui.getItem(7).addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-		}
-	}
 
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
@@ -99,7 +44,7 @@ public class MenuManager implements Listener {
 			if (item != null) { // Null check
 				if (item.equals(ItemStacks.getItem("kitpvpButton"))) {
 					e.setCancelled(true); // Dont do anything with the item, cancel it.
-					setupMenu(p); // Setup the menu for player p specifically.
+					Inventories.setupMenu(p); // Setup the menu for player p specifically.
 					p.openInventory(Inventories.kitGui);
 				}
 			}
@@ -457,6 +402,7 @@ public class MenuManager implements Listener {
 				if (e.getAction().equals(InventoryAction.PICKUP_ALL)
 						|| e.getAction().equals(InventoryAction.PICKUP_HALF)) {
 					e.setCancelled(true);
+
 					// p.closeInventory(); Currently Disabled
 				} else {
 					e.setCancelled(true);
@@ -609,6 +555,13 @@ public class MenuManager implements Listener {
 					e.setCancelled(false);
 				} else {
 					e.setCancelled(true);
+				}
+			}
+			if (e.getInventory().equals(Inventories.unlockGui)) {
+				if (clicked.equals(ItemStacks.getItem("allKitsUnlocked"))) {
+					e.setCancelled(true);
+				} else {
+					e.setCancelled(false);
 				}
 			}
 

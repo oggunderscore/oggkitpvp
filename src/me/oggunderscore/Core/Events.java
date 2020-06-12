@@ -186,7 +186,6 @@ public class Events implements Listener {
 						for (Player players : Bukkit.getServer().getOnlinePlayers()) {
 							players.hidePlayer(Main.getInstance(), p);
 						}
-
 						cooldownCloak.add(p);
 						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
 							public void run() {

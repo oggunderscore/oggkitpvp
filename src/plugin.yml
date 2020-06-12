@@ -53,8 +53,6 @@ commands:
         description: Open the ItemsGUI
     forceleave:
         description: Make Everyone Force Leave!
-    code:
-        description: Enter a code.
     oggclear:
         description: Clear the chat!
     oggdeop:
