@@ -1,6 +1,9 @@
 package me.oggunderscore.Utils;
 
 import me.oggunderscore.Core.Main;
+
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
@@ -11,7 +14,7 @@ import org.bukkit.potion.PotionEffect;
 
 public class Inventories {
 
-	Configuration config = Main.getInstance().getConfig();
+	static Configuration config = Main.getInstance().getConfig();
 	
 	public static Inventory kitGui = Bukkit.createInventory(null, 27, "KitPVP Menu");
 	public static Inventory itemGui = Bukkit.createInventory(null, 9, "Item Menu");
@@ -129,22 +132,22 @@ public class Inventories {
 			ArrayList<String> unownedKits = new ArrayList<String>();
 			// Check for owned kits and assign itemstacks to menu
 			if (playerConfig.getBoolean("ARES") == false) {
-				unownedKits.add("ares");
+				unownedKits.add("aresUnlock");
 			}
 			if (playerConfig.getBoolean("BERSERKER") == false) {
-				unownedKits.add("berserker");
+				unownedKits.add("berserkerUnlock");
 			}
 			if (playerConfig.getBoolean("THOR") == false) {
-				unownedKits.add("thor");
+				unownedKits.add("thorUnlock");
 			}
 			if (playerConfig.getBoolean("HADES") == false) {
-				unownedKits.add("hades");
+				unownedKits.add("hadesUnlock");
 			}
 			if (playerConfig.getBoolean("APOLLO") == false) {
-				unownedKits.add("apollo");
+				unownedKits.add("apolloUnlock");
 			}
 			if (playerConfig.getBoolean("NINJA") == false) {
-				unownedKits.add("ninja");
+				unownedKits.add("ninjaUnlock");
 			}
 
 			int numUnownedKits = unownedKits.size();

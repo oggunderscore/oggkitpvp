@@ -57,6 +57,15 @@ public class ItemStacks {
 		berserkerSelectedLore.add(ChatColor.YELLOW + "Time to go wild!");
 		berserkerSelectedMeta.setLore(berserkerSelectedLore);
 		berserkerSelected.setItemMeta(berserkerSelectedMeta);
+		
+		ItemStack berserkerUnlock = new ItemStack(Material.REDSTONE);
+		ItemMeta berserkerUnlockMeta = berserkerUnlock.getItemMeta();
+		ArrayList<String> berserkerUnlockLore = new ArrayList<String>();
+		berserkerUnlockMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Berserker (Unlock)");
+		berserkerUnlockLore.add(ChatColor.GREEN + "" + ChatColor.BOLD + "UNLOCK COST: " + ChatColor.GOLD + "" + ChatColor.BOLD + "2500 GOLD");
+		berserkerUnlockLore.add(ChatColor.YELLOW + "Time to go wild!");
+		berserkerUnlockMeta.setLore(berserkerUnlockLore);
+		berserkerUnlock.setItemMeta(berserkerUnlockMeta);
 
 		ItemStack ares = new ItemStack(Material.FIRE_CHARGE);
 		ItemMeta aresMeta = ares.getItemMeta();
@@ -73,6 +82,15 @@ public class ItemStacks {
 		aresSelectedLore.add(ChatColor.YELLOW + "Behold the fire.");
 		aresSelectedMeta.setLore(aresSelectedLore);
 		aresSelected.setItemMeta(aresSelectedMeta);
+		
+		ItemStack aresUnlock = new ItemStack(Material.FIRE_CHARGE);
+		ItemMeta aresUnlockMeta = aresUnlock.getItemMeta();
+		ArrayList<String> aresUnlockLore = new ArrayList<String>();
+		aresUnlockMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Ares (Unlock)");
+		aresUnlockLore.add(ChatColor.GREEN + "" + ChatColor.BOLD + "UNLOCK COST: " + ChatColor.GOLD + "" + ChatColor.BOLD + "2500 GOLD");
+		aresUnlockLore.add(ChatColor.YELLOW + "Behold the fire.");
+		aresUnlockMeta.setLore(aresUnlockLore);
+		aresUnlock.setItemMeta(aresUnlockMeta);
 
 		ItemStack thor = new ItemStack(Material.IRON_AXE);
 		ItemMeta thorMeta = thor.getItemMeta();
@@ -89,6 +107,15 @@ public class ItemStacks {
 		thorSelectedLore.add(ChatColor.YELLOW + "Destroy all among you and cause devastation!");
 		thorSelectedMeta.setLore(thorSelectedLore);
 		thorSelected.setItemMeta(thorSelectedMeta);
+		
+		ItemStack thorUnlock = new ItemStack(Material.IRON_AXE);
+		ItemMeta thorUnlockMeta = thorUnlock.getItemMeta();
+		ArrayList<String> thorUnlockLore = new ArrayList<String>();
+		thorUnlockMeta.setDisplayName(ChatColor.WHITE + "" + ChatColor.BOLD + "Thor (Unlock)");
+		thorUnlockLore.add(ChatColor.GREEN + "" + ChatColor.BOLD + "UNLOCK COST: " + ChatColor.GOLD + "" + ChatColor.BOLD + "2500 GOLD");
+		thorUnlockLore.add(ChatColor.YELLOW + "Destroy all among you and cause devastation!");
+		thorUnlockMeta.setLore(thorUnlockLore);
+		thorUnlock.setItemMeta(thorUnlockMeta);
 
 		ItemStack hades = new ItemStack(Material.STONE_AXE);
 		ItemMeta hadesMeta = hades.getItemMeta();
@@ -106,6 +133,15 @@ public class ItemStacks {
 		hadesSelectedMeta.setLore(hadesSelectedLore);
 		hadesSelected.setItemMeta(hadesSelectedMeta);
 
+		ItemStack hadesUnlock = new ItemStack(Material.STONE_AXE);
+		ItemMeta hadesUnlockMeta = hadesUnlock.getItemMeta();
+		ArrayList<String> hadesUnlockLore = new ArrayList<String>();
+		hadesUnlockMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Hades (Unlock)");
+		hadesUnlockLore.add(ChatColor.GREEN + "" + ChatColor.BOLD + "UNLOCK COST: " + ChatColor.GOLD + "" + ChatColor.BOLD + "2500 GOLD");
+		hadesUnlockLore.add(ChatColor.YELLOW + "May those who fall under your hands die.");
+		hadesUnlockMeta.setLore(hadesUnlockLore);
+		hadesUnlock.setItemMeta(hadesUnlockMeta);
+		
 		ItemStack apollo = new ItemStack(Material.BOW);
 		ItemMeta apolloMeta = apollo.getItemMeta();
 		ArrayList<String> apolloLore = new ArrayList<String>();
@@ -121,6 +157,15 @@ public class ItemStacks {
 		apolloSelectedLore.add(ChatColor.YELLOW + "Every arrow counts.");
 		apolloSelectedMeta.setLore(apolloSelectedLore);
 		apolloSelected.setItemMeta(apolloSelectedMeta);
+		
+		ItemStack apolloUnlock = new ItemStack(Material.BOW);
+		ItemMeta apolloUnlockMeta = apolloUnlock.getItemMeta();
+		ArrayList<String> apolloUnlockLore = new ArrayList<String>();
+		apolloUnlockMeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "Apollo (Unlock)");
+		apolloUnlockLore.add(ChatColor.GREEN + "" + ChatColor.BOLD + "UNLOCK COST: " + ChatColor.GOLD + "" + ChatColor.BOLD + "2500 GOLD");
+		apolloUnlockLore.add(ChatColor.YELLOW + "Every arrow counts.");
+		apolloUnlockMeta.setLore(apolloUnlockLore);
+		apolloUnlock.setItemMeta(apolloUnlockMeta);
 
 		ItemStack ninja = new ItemStack(Material.DIAMOND_SWORD);
 		ItemMeta ninjaMeta = ninja.getItemMeta();
@@ -129,14 +174,23 @@ public class ItemStacks {
 		ninjaLore.add(ChatColor.YELLOW + "Be One to Master the Techniques of the Ninja.");
 		ninjaMeta.setLore(ninjaLore);
 		ninja.setItemMeta(ninjaMeta);
-
+		
 		ItemStack ninjaSelected = new ItemStack(Material.DIAMOND_SWORD);
 		ItemMeta ninjaSelectedMeta = ninjaSelected.getItemMeta();
 		ArrayList<String> ninjaSelectedLore = new ArrayList<String>();
 		ninjaSelectedMeta.setDisplayName(ChatColor.WHITE + "" + ChatColor.BOLD + "Ninja (SELECTED)");
-		ninjaSelectedLore.add(ChatColor.YELLOW + "Be One to Master the Techniques of the ninjaSelected.");
+		ninjaSelectedLore.add(ChatColor.YELLOW + "Be One to Master the Techniques of the Ninja.");
 		ninjaSelectedMeta.setLore(ninjaSelectedLore);
 		ninjaSelected.setItemMeta(ninjaSelectedMeta);
+
+		ItemStack ninjaUnlock = new ItemStack(Material.DIAMOND_SWORD);
+		ItemMeta ninjaUnlockMeta = ninjaUnlock.getItemMeta();
+		ArrayList<String> ninjaUnlockLore = new ArrayList<String>();
+		ninjaUnlockMeta.setDisplayName(ChatColor.WHITE + "" + ChatColor.BOLD + "Ninja (Unlock)");
+		ninjaUnlockLore.add(ChatColor.GREEN + "" + ChatColor.BOLD + "UNLOCK COST: " + ChatColor.GOLD + "" + ChatColor.BOLD + "2500 GOLD");
+		ninjaUnlockLore.add(ChatColor.YELLOW + "Be One to Master the Techniques of the Ninja.");
+		ninjaUnlockMeta.setLore(ninjaUnlockLore);
+		ninjaUnlock.setItemMeta(ninjaUnlockMeta);
 
 		ItemStack closeMenu = new ItemStack(Material.BARRIER);
 		ItemMeta closeMenuMeta = closeMenu.getItemMeta();
@@ -357,6 +411,24 @@ public class ItemStacks {
 		}
 		if (search.equalsIgnoreCase("allKitsUnlocked")) {
 			searchedItem = allKitsUnlocked;
+		}
+		if (search.equalsIgnoreCase("aresUnlock")) {
+			searchedItem = aresUnlock;
+		}
+		if (search.equalsIgnoreCase("berserkerUnlock")) {
+			searchedItem = berserkerUnlock;
+		}
+		if (search.equalsIgnoreCase("thorUnlock")) {
+			searchedItem = thorUnlock;
+		}
+		if (search.equalsIgnoreCase("hadesUnlock")) {
+			searchedItem = hadesUnlock;
+		}
+		if (search.equalsIgnoreCase("apolloUnlock")) {
+			searchedItem = apolloUnlock;
+		}
+		if (search.equalsIgnoreCase("ninjaUnlock")) {
+			searchedItem = ninjaUnlock;
 		}
 		
 		if (searchedItem != null) {

@@ -224,7 +224,7 @@ public class GameCommands implements CommandExecutor {
 					p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
 				}
 
-				MenuManager.setupMenu(p);
+				Inventories.setupMenu(p);
 
 				p.openInventory(Inventories.kitGui);
 			}

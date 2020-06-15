@@ -403,7 +403,9 @@ public class MenuManager implements Listener {
 						|| e.getAction().equals(InventoryAction.PICKUP_HALF)) {
 					e.setCancelled(true);
 
-					// p.closeInventory(); Currently Disabled
+					p.closeInventory();
+					Inventories.setupUnlockGui(p);
+					p.openInventory(Inventories.unlockGui);
 				} else {
 					e.setCancelled(true);
 					//p.closeInventory();
