@@ -1,23 +1,16 @@
 package me.oggunderscore.Commands;
 
-import java.util.ArrayList;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import me.oggunderscore.Core.Main;
 import me.oggunderscore.Managers.FFAManager;
 import me.oggunderscore.Managers.FightManager;
-import me.oggunderscore.Managers.StatusManager;
 import me.oggunderscore.Utils.Inventories;
 import me.oggunderscore.Utils.ItemStacks;
 import me.oggunderscore.Utils.Locations;
@@ -26,7 +19,6 @@ import me.oggunderscore.Utils.Worlds;
 
 public class StaffCommands implements CommandExecutor {
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
 
@@ -92,58 +84,6 @@ public class StaffCommands implements CommandExecutor {
 			}
 		}
 
-		if (cmd.getName().equalsIgnoreCase("togglegravity")) {
-
-			if (p.hasPermission("oggcore.staff")) {
-				if (StatusManager.gravity.contains(p)) {
-					StatusManager.gravity.remove(p);
-					p.sendMessage(Prefix.corePrefix + "Gravity Builds disabled!");
-					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0, 1);
-				} else {
-					StatusManager.gravity.add(p);
-					p.sendMessage(Prefix.corePrefix + "Gravity Builds enabled!");
-					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0, 1);
-				}
-			} else {
-				p.sendMessage(Prefix.errorPrefix + "You don't have permission to run this!");
-			}
-		}
-
-		if (cmd.getName().equalsIgnoreCase("oggdeop")) {
-			if (p.isOp() == true) {
-				if (args.length == 0) {
-					p.sendMessage(Prefix.errorPrefix + "Specify a player!");
-					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-				} else if (args.length == 1) {
-					for (Player players : Bukkit.getOnlinePlayers()) {
-						if (Bukkit.getPlayer(players.getName()) != null) {
-							Player target = Bukkit.getPlayer(players.getName());
-							p.sendMessage(Prefix.corePrefix + "Target will not be deopped until reload.");
-							p.playSound(p.getLocation(), Sound.BLOCK_WOODEN_DOOR_CLOSE, 1, 1);
-							Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.getInstance(), new Runnable() {
-								@Override
-								public void run() {
-									target.setOp(false);
-								}
-							}, 0L, 20L);
-						}
-					}
-				} else {
-					p.sendMessage(Prefix.errorPrefix + "Too many args!");
-					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-				}
-			} else {
-				p.sendMessage(Prefix.errorPrefix + "You don't have permission! Nice try.");
-				p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-			}
-
-		}
-
-		if (cmd.getName().equalsIgnoreCase("code")) {
-			StatusManager.codeMode.add(p);
-			p.sendMessage(Prefix.corePrefix + "You entered code mode. Type 'cancel' to exit. Please enter your code:");
-		}
-
 		if (cmd.getName().equalsIgnoreCase("oggclear")) {
 			if (p.isOp() == true) {
 				for (int x = 0; x <= 100; x++) {
@@ -200,43 +140,6 @@ public class StaffCommands implements CommandExecutor {
 
 					}
 				}
-			}
-		}
-
-		if (cmd.getName().equalsIgnoreCase("items")) {
-			if (p.hasPermission("oggcore.staff")) {
-				
-				Inventory itemGui = Bukkit.createInventory(null, 9, "Item Menu");
-
-				ItemStack heavyBow1 = new ItemStack(Material.BOW);
-				ItemMeta heavyBow1Meta = heavyBow1.getItemMeta();
-				ArrayList<String> heavyBow1Lore = new ArrayList<String>();
-				heavyBow1Meta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Heavy Bow I");
-				heavyBow1Lore.add(ChatColor.RED + "" + ChatColor.BOLD + "Tier I Heavy Bow");
-				heavyBow1Meta.setLore(heavyBow1Lore);
-				heavyBow1.setItemMeta(heavyBow1Meta);
-
-				ItemStack heavyBow2 = new ItemStack(Material.BOW);
-				ItemMeta heavyBow2Meta = heavyBow2.getItemMeta();
-				ArrayList<String> heavyBow2Lore = new ArrayList<String>();
-				heavyBow2Meta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Heavy Bow II");
-				heavyBow2Lore.add(ChatColor.RED + "" + ChatColor.BOLD + "Tier II Heavy Bow");
-				heavyBow2Meta.setLore(heavyBow2Lore);
-				heavyBow2.setItemMeta(heavyBow2Meta);
-
-				ItemStack heavyBow3 = new ItemStack(Material.BOW);
-				ItemMeta heavyBow3Meta = heavyBow3.getItemMeta();
-				ArrayList<String> heavyBow3Lore = new ArrayList<String>();
-				heavyBow3Meta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Heavy Bow III");
-				heavyBow3Lore.add(ChatColor.RED + "" + ChatColor.BOLD + "Tier III Heavy Bow");
-				heavyBow3Meta.setLore(heavyBow3Lore);
-				heavyBow3.setItemMeta(heavyBow3Meta);
-
-				itemGui.setItem(0, heavyBow1);
-				itemGui.setItem(1, heavyBow2);
-				itemGui.setItem(2, heavyBow3);
-
-				p.openInventory(itemGui);
 			}
 		}
 

@@ -1,6 +1,6 @@
 name: Core
 main: me.oggunderscore.Core.Main
-version: 0.98
+version: 1.0
 api-version: 1.13
 author: IgnitedMC Development
 description: IgnitedMC's Main Core
@@ -9,54 +9,16 @@ commands:
         description: See a players inventory
     tp:
         description: Teleport to someone
-    fight:
-        description: Fight Someone!
-    dev:
-        description: Staff only!
-    stats:
-        description: View Gold and ELO!
-    coreinfo:
-        description: Info for Core!
-    unlock:
-        description: Unlock a kit!
-    ffa: 
-        description: FFA!
-    arena:
-        description: Choose the Arena!
     givegold:
         description: Give Gold!
-    togglegravity:
-        description: Toggle Build Gravity!
-    ffa2:
-        description: Ffa2!
     update:
         description: Send a update notification!
-    commands:
-        description: View available commands!
-    event:
-        description: Look at the upcoming event!
     poke:
         description: Poke a player!
-    apply:
-        description: Apply!
-    website:
-        description: Shows our website
-    discord:
-        description: Shows our Discord
-    staff:
-        description: Shows the Staff List!
-    ranks:
-        description: Show the ranks
-    kitpvp:
-        description: The Main KitPVP Plugin
-    items:
-        description: Open the ItemsGUI
     forceleave:
         description: Make Everyone Force Leave!
     oggclear:
         description: Clear the chat!
-    oggdeop:
-        description: Force Deop!
     urf:
         description: ez
     heal:

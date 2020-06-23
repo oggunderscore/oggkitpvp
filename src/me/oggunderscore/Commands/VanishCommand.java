@@ -1,11 +1,8 @@
 package me.oggunderscore.Commands;
 
-import com.google.gson.internal.$Gson$Preconditions;
 import me.oggunderscore.Core.Main;
 import me.oggunderscore.Utils.ActionBar;
 import me.oggunderscore.Utils.ChatColorChange;
-import net.minecraft.server.v1_15_R1.PacketPlayOutPlayerInfo;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class VanishCommand implements CommandExecutor {
 

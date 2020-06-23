@@ -10,5 +10,6 @@ public class Prefix {
 	public static String arenaPrefix = ChatColor.GRAY + "[" + ChatColor.BLUE + "Arena" + ChatColor.GRAY + "] ";
 	public static String ffaPrefix = ChatColor.GRAY + "[" + ChatColor.AQUA + "FFA" + ChatColor.GRAY + "] ";
 	public static String fightPrefix = ChatColor.GRAY + "[" + ChatColor.AQUA + "Fight" + ChatColor.GRAY + "] ";
+	public static String statusPrefix = ChatColor.GRAY + "[" + ChatColor.BLUE + "Status" + ChatColor.GRAY + "] ";
 
 }

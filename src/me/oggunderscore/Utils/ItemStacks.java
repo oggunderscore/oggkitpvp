@@ -211,19 +211,19 @@ public class ItemStacks {
 		ItemMeta infoButtonMeta = infoButton.getItemMeta();
 		ArrayList<String> infoButtonLore = new ArrayList<String>();
 		infoButtonMeta.setDisplayName(ChatColor.WHITE + "" + ChatColor.BOLD + "Server Info");
-		infoButtonLore.add(ChatColor.AQUA + "Core Version 0.97");
+		infoButtonLore.add(ChatColor.AQUA + "Core Version 1.0");
 		infoButtonLore.add("");
 		infoButtonLore.add(ChatColor.YELLOW + "Website: " + ChatColor.BOLD + "www.IgnitedPVP.com");
 		infoButtonLore.add(ChatColor.DARK_AQUA + "Discord: " + ChatColor.BOLD + "https://discord.gg/fepAM7U");
 		infoButtonLore.add("");
 		infoButtonLore.add(ChatColor.WHITE + "" + ChatColor.BOLD + "       -- Staff List --");
-		infoButtonLore.add(ChatColor.DARK_RED + "" + ChatColor.BOLD + "OWNER" + ChatColor.RESET + ChatColor.RED + " - dqzzling");
-		infoButtonLore.add(ChatColor.DARK_RED + "" + ChatColor.BOLD + "DEV" + ChatColor.RESET + ChatColor.RED + " - ogg_ & oddfoam");
-		infoButtonLore.add(ChatColor.DARK_RED + "" + ChatColor.BOLD + "LEADER" + ChatColor.RESET + ChatColor.RED + " - Qsxley");
+		infoButtonLore.add(ChatColor.DARK_RED + "" + ChatColor.BOLD + "FOUNDER" + ChatColor.RESET + ChatColor.RED + " - Riyrus");
+		infoButtonLore.add(ChatColor.DARK_RED + "" + ChatColor.BOLD + "MANAGER" + ChatColor.RESET + ChatColor.RED + " - DakotaBloo, hb00, C013Y, BlackGhost64");
+		infoButtonLore.add(ChatColor.DARK_RED + "" + ChatColor.BOLD + "DEV" + ChatColor.RESET + ChatColor.RED + " - ogg_");
 		infoButtonLore.add(ChatColor.DARK_RED + "" + ChatColor.BOLD + "ADMIN" + ChatColor.RESET + ChatColor.RED + " - N/A");
-		infoButtonLore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "MOD" + ChatColor.RESET + ChatColor.YELLOW + " - CarbonatedFry, dazing, FlooberGaming");
-		infoButtonLore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "HELPER" + ChatColor.RESET + ChatColor.YELLOW + " - AAron, c013y, TheSlimeKing");
-		infoButtonLore.add(ChatColor.BLUE + "" + ChatColor.BOLD + "BUILDER" + ChatColor.RESET + ChatColor.AQUA + " - dazing");
+		infoButtonLore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "MOD" + ChatColor.RESET + ChatColor.YELLOW + " - AAaron, dazing, TheSlimeKing, CarbonatedFry");
+		infoButtonLore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "HELPER" + ChatColor.RESET + ChatColor.YELLOW + " - yoda, Tudha, Mxsty");
+		infoButtonLore.add(ChatColor.BLUE + "" + ChatColor.BOLD + "BUILDER" + ChatColor.RESET + ChatColor.AQUA + " - onionbaegel");
 		infoButtonMeta.setLore(infoButtonLore);
 		infoButton.setItemMeta(infoButtonMeta);
 
@@ -316,6 +316,30 @@ public class ItemStacks {
 		allKitsUnlockedLore.add(ChatColor.GOLD + "" + ChatColor.BOLD + "More coming soon!");
 		allKitsUnlockedMeta.setLore(allKitsUnlockedLore);
 		allKitsUnlocked.setItemMeta(allKitsUnlockedMeta);
+		
+		ItemStack cancelPurchase = new ItemStack(Material.BARRIER);
+		ItemMeta cancelPurchaseMeta = cancelPurchase.getItemMeta();
+		ArrayList<String> cancelPurchaseLore = new ArrayList<String>();
+		cancelPurchaseMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "CANCEL PURCHASE");
+		cancelPurchaseLore.add(ChatColor.YELLOW + "Back to Unlock Menu");
+		cancelPurchaseMeta.setLore(cancelPurchaseLore);
+		cancelPurchase.setItemMeta(cancelPurchaseMeta);
+		
+		ItemStack purchase = new ItemStack(Material.EMERALD);
+		ItemMeta purchaseMeta = purchase.getItemMeta();
+		ArrayList<String> purchaseLore = new ArrayList<String>();
+		purchaseMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "CONFIRM PURCHASE");
+		purchaseLore.add(ChatColor.YELLOW + "Purchase the kit selected!");
+		purchaseMeta.setLore(purchaseLore);
+		purchase.setItemMeta(purchaseMeta);
+		
+		ItemStack newKitComingSoon = new ItemStack(Material.EMERALD);
+		ItemMeta newKitComingSoonMeta = newKitComingSoon.getItemMeta();
+		ArrayList<String> newKitComingSoonLore = new ArrayList<String>();
+		newKitComingSoonMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "NEW KIT COMING SOON!");
+		newKitComingSoonLore.add(ChatColor.YELLOW + "???????????");
+		newKitComingSoonMeta.setLore(newKitComingSoonLore);
+		newKitComingSoon.setItemMeta(newKitComingSoonMeta);
 		
 		ItemStack searchedItem = null;
 
@@ -429,6 +453,15 @@ public class ItemStacks {
 		}
 		if (search.equalsIgnoreCase("ninjaUnlock")) {
 			searchedItem = ninjaUnlock;
+		}
+		if (search.equalsIgnoreCase("purchase")) {
+			searchedItem = purchase;
+		}
+		if (search.equalsIgnoreCase("cancelPurchase")) {
+			searchedItem = cancelPurchase;
+		}
+		if (search.equalsIgnoreCase("newKitComingSoon")) {
+			searchedItem = newKitComingSoon;
 		}
 		
 		if (searchedItem != null) {

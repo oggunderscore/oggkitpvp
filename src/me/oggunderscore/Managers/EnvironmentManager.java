@@ -1,7 +1,6 @@
 package me.oggunderscore.Managers;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,6 +20,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -31,6 +31,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import me.oggunderscore.Core.Events;
 import me.oggunderscore.Core.Main;
 import me.oggunderscore.Utils.Inventories;
 import me.oggunderscore.Utils.ItemStacks;
@@ -65,6 +66,49 @@ public class EnvironmentManager implements Listener {
 	}
 	
 	@EventHandler
+	public void onBow(EntityShootBowEvent e) {
+		if (e.getEntityType() == EntityType.PLAYER) {
+			Player p = (Player) e.getEntity();
+			if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.RED + "" + ChatColor.BOLD + "Escape!")) {
+				if (p.isSneaking()) { 
+					if (e.getProjectile().getType() == EntityType.ARROW) {
+						
+						if (Events.cooldownEmpoweredArrow.contains(p)) {
+							p.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "Cooldown" + ChatColor.GRAY
+									+ "] " + ChatColor.RED + "" + ChatColor.BOLD + "Empowered Arrow "
+									+ ChatColor.WHITE + "is still on cooldown!");
+							p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+						} else {
+							Arrow arr = (Arrow) e.getProjectile();
+							Player damager = (Player) arr.getShooter();
+							damageList.put(p, damager);
+							PotionEffect damage = new PotionEffect(PotionEffectType.HARM, 2, 1);
+							//Bukkit.broadcastMessage("Arr Base: " + arr.getDamage());
+							double arrDmg = arr.getDamage() + 0.2;
+							//arr.setDamage(arrDmg);
+							arr.addCustomEffect(damage, true);
+							//Bukkit.broadcastMessage("Arr New: " + arr.getDamage());
+							//Bukkit.broadcastMessage("empowered arrow!");
+							
+							Events.cooldownEmpoweredArrow.add(p);
+							p.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "Ability" + ChatColor.GRAY + "] "
+									+ ChatColor.GRAY + "You used " + ChatColor.RED + "" + ChatColor.BOLD + "Empowered Arrow");
+							Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+								public void run() {
+									Events.cooldownEmpoweredArrow.remove(p);
+									p.sendMessage(ChatColor.GRAY + "[" + ChatColor.BLUE + "Ability" + ChatColor.GRAY + "] "
+											+ ChatColor.GREEN + "" + ChatColor.BOLD + "Empowered Arrow " + ChatColor.GRAY + "is "
+											+ ChatColor.GREEN + "READY!");
+								}
+							}, Events.cdEmpoweredArrow * 20);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	@EventHandler
 	public void onAttack(EntityDamageByEntityEvent e) {
 		if (e.getEntity() instanceof Player) {
 
@@ -84,6 +128,8 @@ public class EnvironmentManager implements Listener {
 
 				// T1: Set Damager as last damager
 				damageList.put(p, damager);
+				
+				//Bukkit.broadcastMessage(p.getName() + " taking " + e.getDamage() + " from " + damager.getName());
 				//Bukkit.broadcastMessage(p.getDisplayName() + " was attacked by " + damager.getDisplayName()); // Debug
 	
 				if (!p.canSee(damager)) {
@@ -168,6 +214,7 @@ public class EnvironmentManager implements Listener {
 				} else {
 					e.setCancelled(true);
 				}*/
+				e.setDamage(0);
 				e.setCancelled(true);
 			}
 			if (p.getHealth() - e.getDamage() <= 0.0) { // Player is dying
@@ -212,7 +259,7 @@ public class EnvironmentManager implements Listener {
 					p.setGameMode(GameMode.ADVENTURE);
 					p.teleport(Locations.kitpvpSpawn);
 					Inventories.clear(p);
-					p.getInventory().setItem(0, ItemStacks.getItem("kitpvpButton"));
+					p.getInventory().setItem(4, ItemStacks.getItem("kitpvpButton"));
 					//Bukkit.broadcastMessage("wadu hecc2");
 
 					
@@ -370,7 +417,7 @@ public class EnvironmentManager implements Listener {
 		p.teleport(Locations.kitpvpSpawn);
 		Inventories.clear(p);
 
-		p.getInventory().setItem(0, ItemStacks.getItem("kitpvpButton"));
+		p.getInventory().setItem(4, ItemStacks.getItem("kitpvpButton"));
 
 	}
 

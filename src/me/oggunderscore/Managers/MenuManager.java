@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -19,16 +18,12 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import me.oggunderscore.Core.Main;
 import me.oggunderscore.Utils.Inventories;
 import me.oggunderscore.Utils.ItemStacks;
 import me.oggunderscore.Utils.Kits;
 import me.oggunderscore.Utils.Locations;
-import me.oggunderscore.Utils.Worlds;
 
 public class MenuManager implements Listener {
 
@@ -390,6 +385,15 @@ public class MenuManager implements Listener {
 					p.closeInventory();
 				}
 			} else if (clicked.equals(ItemStacks.getItem("infoButton"))) {
+				if (e.getAction().equals(InventoryAction.PICKUP_ALL)
+						|| e.getAction().equals(InventoryAction.PICKUP_HALF)) {
+					e.setCancelled(true);
+					// p.closeInventory(); Currently Disabled
+				} else {
+					e.setCancelled(true);
+					p.closeInventory();
+				}
+			} else if (clicked.equals(ItemStacks.getItem("newKitComingSoon"))) {
 				if (e.getAction().equals(InventoryAction.PICKUP_ALL)
 						|| e.getAction().equals(InventoryAction.PICKUP_HALF)) {
 					e.setCancelled(true);

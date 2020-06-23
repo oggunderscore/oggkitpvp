@@ -10,6 +10,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 public class Inventories {
@@ -35,6 +36,7 @@ public class Inventories {
 		kitGui.setItem(6, ItemStacks.getItem("hades"));
 		kitGui.setItem(7, ItemStacks.getItem("ninja"));
 
+		kitGui.setItem(8, ItemStacks.getItem("newKitComingSoon"));
 		kitGui.setItem(9, ItemStacks.getItem("ffa"));
 		kitGui.setItem(13, ItemStacks.getItem("leave"));
 		kitGui.setItem(22, ItemStacks.getItem("unlockButton"));
@@ -150,15 +152,30 @@ public class Inventories {
 				unownedKits.add("ninjaUnlock");
 			}
 
-			int numUnownedKits = unownedKits.size();
-
-			for (int x = 0; x < numUnownedKits; x++) {
+			int x = 0;
+			
+			// Reset the inventory
+			for (int y = 0; y < 8; y++) {
+				unlockGui.setItem(y, null);
+			}
+			
+			while (unownedKits.size() != 0) {
 				unlockGui.setItem(x, ItemStacks.getItem(unownedKits.get(0))); // Hope this is how it goes?
 				unownedKits.remove(0);
+				x++;
 			}
-			// TODO: Confirmation screen and Purchasing and click events.
 		}
 
+	}
+	
+	public static void setupConfirmation(ItemStack item) {
+		confirmationGui.setItem(4, item);
+		for (int x = 0; x < 4; x++) {
+			confirmationGui.setItem(x, ItemStacks.getItem("cancelPurchase"));
+		}
+		for (int x = 5; x < 9; x++) {
+			confirmationGui.setItem(x, ItemStacks.getItem("purchase"));
+		}
 	}
 	
 	public static void clear(Player p) {

@@ -397,21 +397,24 @@ public class Kits {
 		lm.setUnbreakable(true);
 		Leggings.setItemMeta(lm);
 		
-		ItemStack AresBoots = new ItemStack(Material.LEATHER_BOOTS);
-		LeatherArmorMeta abm = (LeatherArmorMeta) AresBoots.getItemMeta();
-		abm.setColor(Color.YELLOW);
+		ItemStack AresBoots = new ItemStack(Material.DIAMOND_BOOTS);
+		ItemMeta abm = AresBoots.getItemMeta();
+		//LeatherArmorMeta abm = (LeatherArmorMeta) AresBoots.getItemMeta();
+		//abm.setColor(Color.YELLOW);
 		abm.setUnbreakable(true);
 		AresBoots.setItemMeta(abm);
 		
 		ItemStack Sword = new ItemStack(Material.BOW);
 		ItemMeta sm = Sword.getItemMeta();
 		ArrayList<String> lore1 = new ArrayList<String>();
-		lore1.add(ChatColor.YELLOW + "Escape the Danger!");
+		lore1.add(ChatColor.YELLOW + "LEFT CLICK AIR: Escape the Danger!");
+		lore1.add(ChatColor.YELLOW + "SNEAK + FIRE: Fire an Empowered Arrow.");
+		lore1.add(ChatColor.YELLOW + "Cooldown: 13s");
 		sm.setLore(lore1);
 		sm.setUnbreakable(true);
 		sm.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Escape!");
 		sm.addEnchant(Enchantment.KNOCKBACK, 3, true);
-		sm.addEnchant(Enchantment.ARROW_FIRE, 1, true);
+		//sm.addEnchant(Enchantment.ARROW_FIRE, 1, true);
 		sm.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
 		Sword.setItemMeta(sm);
 		

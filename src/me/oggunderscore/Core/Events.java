@@ -3,35 +3,28 @@ package me.oggunderscore.Core;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import com.mysql.fabric.xmlrpc.base.Array;
 import me.oggunderscore.Utils.*;
 import me.oggunderscore.Utils.ActionBar;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.EntityEffect;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.configuration.Configuration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -39,11 +32,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import me.oggunderscore.Managers.EnvironmentManager;
-import me.oggunderscore.Managers.FFAManager;
-import me.oggunderscore.Managers.FightManager;
-import me.oggunderscore.Managers.StatusManager;
 
-@SuppressWarnings("deprecation")
 public class Events implements Listener {
 
 	static Configuration config = Main.getPlugin(Main.class).getConfig();
@@ -57,6 +46,7 @@ public class Events implements Listener {
 	public static final ArrayList<Object> cooldownDash = new ArrayList<Object>();
 	public static final ArrayList<Object> cooldownBlink = new ArrayList<Object>();
 	public static final ArrayList<Object> cooldownCloak = new ArrayList<Object>();
+	public static final ArrayList<Object> cooldownEmpoweredArrow = new ArrayList<Object>();
 
 	public static ArrayList<FallingBlock> arr = new ArrayList<FallingBlock>();
 	public static ArrayList<FallingBlock> rem = new ArrayList<FallingBlock>();
@@ -64,12 +54,13 @@ public class Events implements Listener {
 	public static int cdEnlightment = 13;
 	public static int cdIgnite = 7;
 	public static int cdRegen = 15;
-	public static int cdEarthquake = 14;
+	public static int cdEarthquake = 17;
 	public static int cdCorruptedOrb = 7;
 	public static int cdDash = 3;
 	public static int cdEscape = 7;
 	public static int cdBlink = 7;
 	public static int cdCloak = 20;
+	public static int cdEmpoweredArrow = 13;
 	
 	private Player thrower;
 
@@ -110,9 +101,11 @@ public class Events implements Listener {
 				if (player == thrower) {
 					e.setCancelled(true);
 				} else {
+					
 					player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 8 * 20, 40));
 					player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 8 * 20, 4));
 					player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 8 * 20, 4));
+					player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 8 * 20, 5));
 					//player.damage(16);
 				}
 				World world = Worlds.kitpvpWorld;
@@ -262,6 +255,8 @@ public class Events implements Listener {
 						PotionEffect regen = new PotionEffect(PotionEffectType.REGENERATION, 5 * 20, 2);
 						p.addPotionEffect(regen);
 						Worlds.kitpvpWorld.spawnParticle(Particle.HEART, p.getLocation(), 5);
+						Worlds.kitpvpWorld.spawnParticle(Particle.HEART, p.getLocation(), 5);
+						Worlds.kitpvpWorld.spawnParticle(Particle.HEART, p.getLocation(), 5);
 						p.getInventory().setHeldItemSlot(oldSlot);
 						cooldownRegen.add(p);
 						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
@@ -353,9 +348,11 @@ public class Events implements Listener {
 								p.setVelocity(escape);
 								p.getWorld().playSound(p.getLocation(), Sound.BLOCK_GLASS_BREAK, 0, 1);
 								PotionEffect regen = new PotionEffect(PotionEffectType.REGENERATION, 4 * 20, 1);
-								PotionEffect slow = new PotionEffect(PotionEffectType.SPEED, 3 * 20, 0);
-								p.addPotionEffect(slow);
+								PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 3 * 20, 1);
+								PotionEffect fall = new PotionEffect(PotionEffectType.SLOW_FALLING, 6 * 20, 1);
+								p.addPotionEffect(speed);
 								p.addPotionEffect(regen);
+								p.addPotionEffect(fall);
 								Worlds.kitpvpWorld.spawnParticle(Particle.SNOWBALL, p.getLocation(), 5);
 
 								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(),
@@ -388,18 +385,12 @@ public class Events implements Listener {
 								+ "is still on cooldown!");
 						p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
 					} else {
-						cooldownBlink.add(p);
-
-						Location location = p.getLineOfSight(null, 8).get(p.getLineOfSight(null, 8).size() - 2).getLocation();
-						location.setYaw(p.getLocation().getYaw());
-						location.setPitch(p.getLocation().getPitch());
-						p.teleport(location);
 						
-						Worlds.kitpvpWorld.spawnParticle(Particle.CLOUD, p.getLocation(), 5);
-						Worlds.kitpvpWorld.spawnParticle(Particle.FIREWORKS_SPARK, p.getLocation(), 5);
-						Worlds.kitpvpWorld.spawnParticle(Particle.FLASH, p.getLocation(), 5);
-						p.playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
 
+						Location location = p.getLineOfSight(null, 8).get(p.getLineOfSight(null, 8).size() - 3).getLocation(); // error on ladder
+						
+						cooldownBlink.add(p);
+						
 						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(),
 								new Runnable() {
 
@@ -411,6 +402,17 @@ public class Events implements Listener {
 												+ ChatColor.GREEN + "READY!");
 									}
 								}, cdBlink * 20);
+						
+						location.setYaw(p.getLocation().getYaw());
+						location.setPitch(p.getLocation().getPitch());
+						p.teleport(location);
+						
+						Worlds.kitpvpWorld.spawnParticle(Particle.CLOUD, p.getLocation(), 5);
+						Worlds.kitpvpWorld.spawnParticle(Particle.FIREWORKS_SPARK, p.getLocation(), 5);
+						Worlds.kitpvpWorld.spawnParticle(Particle.FLASH, p.getLocation(), 5);
+						p.playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
+
+						
 
 					}
 				}
@@ -458,6 +460,13 @@ public class Events implements Listener {
 						item.setVelocity(dropsite);
 
 						playEffect(item);
+						
+						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(),
+								new Runnable() {
+									public void run() {
+										item.remove();
+									}
+								}, 30 * 20);
 
 						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(),
 								new Runnable() {
@@ -487,10 +496,10 @@ public class Events implements Listener {
 						for (Player players : Bukkit.getOnlinePlayers()) {
 							if (p.getNearbyEntities(8.0, 8.0, 8.0).contains(players)) {
 								EnvironmentManager.damageList.put(players, p);
-								players.damage(18.0);
 								Vector knockup = players.getLocation().getDirection().multiply(0.1D)
-										.setY(1.8D);
+										.setY(1.4D); // 1.8 -> 1.4?
 								players.setVelocity(knockup);
+								players.damage(13.0);
 								Worlds.kitpvpWorld.spawnParticle(Particle.EXPLOSION_LARGE, p.getLocation(), 5);
 								PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, 2 * 20, 1);
 								players.addPotionEffect(slow);
@@ -501,8 +510,8 @@ public class Events implements Listener {
 
 						for (Player players1 : Bukkit.getOnlinePlayers()) {
 							if (p.getNearbyEntities(12.0, 12.0, 12.0).contains(players1)) {
-								Worlds.kitpvpWorld.strikeLightning(players1.getLocation()); 
 								EnvironmentManager.damageList.put(players1, p);
+								Worlds.kitpvpWorld.strikeLightning(players1.getLocation()); 
 							}
 						}
 
@@ -535,7 +544,7 @@ public class Events implements Listener {
 						for (Player players : Bukkit.getOnlinePlayers()) {
 							if (p.getNearbyEntities(2.0, 2.0, 2.0).contains(players)) {
 								EnvironmentManager.damageList.put(players, p);
-								players.damage(20.0);
+								players.damage(15.0);
 								players.playEffect(EntityEffect.HURT);
 								//Worlds.kitpvpWorld.spawnParticle(Particle.BLOCK_DUST, p.getLocation(), 5);
 							}
