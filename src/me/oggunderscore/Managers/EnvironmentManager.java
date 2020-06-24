@@ -155,48 +155,6 @@ public class EnvironmentManager implements Listener {
 					}
 				}
 			}
-
-			/*
-			 * // Unnecessary code? June 3 2020 if (p.getHealth() <= 0) {
-			 * 
-			 * if (p.getWorld().equals(Worlds.kitpvpWorld)) {
-			 * 
-			 * Player killer = (Player) p.getKiller();
-			 * 
-			 * if (FFAManager.inFfa.contains(killer)) { Integer newKillerGold = (Integer)
-			 * Main.getInstance().getConfig().getConfigurationSection(killer.getName()).get(
-			 * "GOLD") + 50;
-			 * Main.getInstance().getConfig().getConfigurationSection(killer.getName()).set(
-			 * "GOLD", newKillerGold); killer.sendMessage(ChatColor.GRAY + "[" +
-			 * ChatColor.BLUE + "FFA" + ChatColor.GRAY + "] You collected " + ChatColor.GOLD
-			 * + "" + ChatColor.BOLD + "50 Gold " + ChatColor.GRAY + "for killing " +
-			 * ChatColor.RED + p.getName()); }
-			 * 
-			 * // EXP LEVELING?
-			 * 
-			 * Inventories.clear(p); p.setGameMode(GameMode.ADVENTURE);
-			 * p.teleport(Locations.spawn); p.getInventory().setItem(0,
-			 * ItemStacks.getItem("kitpvpButton"));
-			 * 
-			 * if
-			 * (Main.getInstance().getConfig().getConfigurationSection(killer.getName()).get
-			 * ("KIT").equals("TANK")) { PotionEffect strength = new
-			 * PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 15, 1);
-			 * killer.addPotionEffect(strength); PotionEffect speed = new
-			 * PotionEffect(PotionEffectType.SPEED, 20 * 15, 1);
-			 * killer.addPotionEffect(speed);
-			 * 
-			 * }
-			 * 
-			 * if (FightManager.inFight.contains(FightManager.fighter1) ||
-			 * FightManager.inFight.contains(FightManager.fighter2)) { FightManager.winner =
-			 * p.getKiller(); FightManager.loser = p; FightManager.endGame();
-			 * FightManager.winner.setHealth(20.0); FightManager.loser.setHealth(20.0);
-			 * 
-			 * } for (PotionEffect effect : p.getActivePotionEffects()) {
-			 * p.removePotionEffect(effect.getType()); } FFAManager.inFfa.remove(p);
-			 * e.setCancelled(true); } }
-			 */
 		}
 
 	}
@@ -234,6 +192,7 @@ public class EnvironmentManager implements Listener {
 					p.setLevel(0);
 					p.setGameMode(GameMode.ADVENTURE);
 					p.teleport(Locations.kitpvpSpawn);
+					p.getInventory().setItem(4, ItemStacks.getItem("kitpvpButton"));
 					for (PotionEffect effect : p.getActivePotionEffects()) {
 						p.removePotionEffect(effect.getType());
 					}
@@ -337,9 +296,9 @@ public class EnvironmentManager implements Listener {
 
 					if (Main.getInstance().getConfig().getConfigurationSection(killer.getName()).get("KIT")
 							.equals("TANK")) {
-						PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 15, 0);
+						PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 7 * 20, 0);
 						killer.addPotionEffect(strength);
-						PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 20 * 15, 0);
+						PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 7 * 20, 0);
 						killer.addPotionEffect(speed);
 
 					}
@@ -381,7 +340,7 @@ public class EnvironmentManager implements Listener {
 		if (!(Main.getInstance().getConfig().contains(pName))) {
 			Main.getInstance().getConfig().createSection(pName);
 			Main.getInstance().getConfig().set(pName + ".RANK", "DEFAULT");
-			Main.getInstance().getConfig().set(pName + ".GOLD", 1000);
+			Main.getInstance().getConfig().set(pName + ".GOLD", 2500);
 			Main.getInstance().getConfig().set(pName + ".WINS", 0);
 			Main.getInstance().getConfig().set(pName + ".LOSSES", 0);
 			Main.getInstance().getConfig().set(pName + ".ARES", false);

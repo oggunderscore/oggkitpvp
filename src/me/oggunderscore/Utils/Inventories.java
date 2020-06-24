@@ -119,6 +119,12 @@ public class Inventories {
 		// Check how many kits player owns
 		// Will tell player they own all kits
 		if (getNumOfKitsUnowned(p) == 0) {
+			
+			// Reset the inventory
+			for (int y = 0; y < 8; y++) {
+				unlockGui.setItem(y, null);
+			}
+			
 			// Display item Stack "ALL KITS UNLOCKED! More coming soon..."
 			unlockGui.setItem(0, ItemStacks.getItem("allKitsUnlocked"));
 			// Is cancelled from pickup in MenuManager

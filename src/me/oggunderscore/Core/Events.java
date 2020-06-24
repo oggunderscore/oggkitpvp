@@ -51,9 +51,9 @@ public class Events implements Listener {
 	public static ArrayList<FallingBlock> arr = new ArrayList<FallingBlock>();
 	public static ArrayList<FallingBlock> rem = new ArrayList<FallingBlock>();
 	
-	public static int cdEnlightment = 13;
-	public static int cdIgnite = 7;
-	public static int cdRegen = 15;
+	public static int cdEnlightment = 15;
+	public static int cdIgnite = 9;
+	public static int cdRegen = 17;
 	public static int cdEarthquake = 17;
 	public static int cdCorruptedOrb = 7;
 	public static int cdDash = 3;
@@ -205,7 +205,7 @@ public class Events implements Listener {
 						p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
 						Worlds.kitpvpWorld.spawnParticle(Particle.CRIT, p.getLocation(), 5);
 						Worlds.kitpvpWorld.spawnParticle(Particle.EXPLOSION_HUGE, p.getLocation(), 5);
-						PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 3 * 20, 2);
+						PotionEffect strength = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5 * 20, 0);
 						p.addPotionEffect(strength);
 						p.getInventory().setHeldItemSlot(oldSlot);
 						for (Player players : Bukkit.getOnlinePlayers()) {
@@ -499,7 +499,8 @@ public class Events implements Listener {
 								Vector knockup = players.getLocation().getDirection().multiply(0.1D)
 										.setY(1.4D); // 1.8 -> 1.4?
 								players.setVelocity(knockup);
-								players.damage(13.0);
+								PotionEffect damage = new PotionEffect(PotionEffectType.HARM, 1, 1);
+								players.addPotionEffect(damage);
 								Worlds.kitpvpWorld.spawnParticle(Particle.EXPLOSION_LARGE, p.getLocation(), 5);
 								PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, 2 * 20, 1);
 								players.addPotionEffect(slow);
